@@ -85,7 +85,13 @@ Optional shell helper for one-off runs:
 
 ```bash
 cdx-specs() {
-  codex --model gpt-5-codex --full-auto --search "$@"
+  codex \
+    --model gpt-5-codex \
+    --full-auto \
+    --search \
+    --ask-for-approval never \
+    --full-auto \
+    "Use specs from https://example.com/specs.md" "$@"
 }
 # usage inside a pane: cdx-specs "Make stuff read file etc"
 ```
