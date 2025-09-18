@@ -62,7 +62,7 @@ make help             # list available ground operations
 make bootstrap        # install tmux + node + pnpm + astro prerequisites (Ubuntu/Debian)
 make mission-package  # scaffold missions/<slug>/{task,brief}.md (MISSION=... required)
 make mission-control  # launch the multi-pane Codex tmux session (alias of make tmux)
-make mission-all      # run clone-template, pnpm install, optional venv, verify
+make mission-all      # full prep (installs deps, runs checks) – optional & heavier
 make mission-story-check # validate storyteller outline vs chapters
 make demotime         # (optional) prep FastAPI + dashboard demo and print run commands
 make demotime-start   # (optional) launch FastAPI + dashboard in background (demotime-stop / demotime-status)
@@ -165,6 +165,7 @@ Template scaffolds now live in `templates/` (see `docs/templates/fastapi.md`, `d
 ## tmux Squadron Layout
 `scripts/start_tmux_codex.sh` creates a session named `goose`. Windows and panes:
 - **Command**: shared shell with git status, log tail, and Make targets.
+- **Lead**: Maverick’s Codex session (chain-of-command brief rolls here first).
 - **Flightline**: panes for Goose, Iceman, Phoenix, and Hangman Codex CLIs.
 - **QA Tower**: Rooster running tests, coverage, and flight reports.
 - **Ops**: Hondo monitoring issues and release notes.
@@ -195,7 +196,7 @@ Fly safe, keep the chatter clear, and always talk to your Goose.
 
 ## HOW: Mission Spin-Up
 - **Base prompt for Maverick**: see `from_to.md` for the canonical kickoff instructions that brief Codex on mission goals, resource constraints, and approval rules.
-- **First contact**: Open a tmux pane, source `scripts/persona_env/Maverick.env`, and start Codex with `codex --persona Maverick --cwd /path/to/repo`.
+- **First contact**: Attach to the **Lead** window—Maverick’s Codex session auto-launches there. Use it to gather constraints and fan orders down the flightline.
 - **Idea intake**: New contributors present mission intent to Maverick; once approved, Maverick relays tasks down the flight tree.
 - **Branching**: Each developer operates on mission-specific branches (`feature/<persona>-<call-sign>`). Merge approval flows back through Maverick.
 - **Inbox discipline**: Claim work from `handoffs/inbox.md`; Maverick seeds the first commit on new missions, then instructs which branch each persona should use.

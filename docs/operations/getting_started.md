@@ -15,6 +15,7 @@ tooling installed, just pull the latest changes and jump to section 2.
 4. Run `make venv` **only if** you plan to use the optional FastAPI template; it creates or refreshes `.venv/` directly.
 5. Run `make clone-template` to clone or update the shared `talktomegoose_test/` playground repository (or let `make mission-all` handle the full sequence).
 6. Need the monitoring stack (FastAPI + dashboard)? Use `make demotime` to install all dependencies and display launch commands. Skip this if tmux + git are sufficient.
+7. Want the heavier “everything” workflow (deps + tests)? Run `make mission-all` — useful for demos, optional for day-to-day coding.
 
 ## 2. Build the Mission Package
 1. Create the scaffolding: `make mission-package MISSION="Flight Check" SPEC=https://…`.

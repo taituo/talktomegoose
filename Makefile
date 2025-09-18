@@ -36,7 +36,7 @@ tmux: ## Launch multi-pane Codex tmux session
 mission-control: ## Alias for launching the tmux mission control layout
 	$(MAKE) tmux
 
-mission-all: ## Full first-flight prep (clone template, deps, optional venv, checks)
+mission-all: ## Full first-flight prep (clone template, install deps, optional venv, checks)
 	$(MAKE) clone-template
 	pnpm install
 	@if [ "$(SKIP_VENV)" != "1" ]; then \
@@ -51,9 +51,16 @@ mission-all: ## Full first-flight prep (clone template, deps, optional venv, che
 mission-story-check: ## Validate storyteller outline vs chapter templates
 	node scripts/story/check_chapters.mjs
 
-demotime: ## Prepare demo deps (FastAPI + dashboard) and print launch tips
-	$(MAKE) mission-all SKIP_VENV=$(SKIP_VENV)
+demotime: ## (Optional) prepare monitoring deps (FastAPI + dashboard) and print launch tips
+	$(MAKE) clone-template
+	pnpm --silent install
 	pnpm --dir templates/mission-dashboard install
+	@if [ "$(SKIP_VENV)" != "1" ]; then \
+		echo "[demotime] Creating/updating .venv (set SKIP_VENV=1 to skip)"; \
+		$(MAKE) venv; \
+	else \
+		echo "[demotime] Skipping venv because SKIP_VENV=1"; \
+	fi
 	@echo "---"
 	@echo "Mission demo ready." \
 	 && echo "1. API key (optional): export TALKTO_API_KEY=demo-mission" \
