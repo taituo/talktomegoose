@@ -74,6 +74,9 @@ make verify        # run lint + tmux launch test + telemetry probe
 
 All personas share this working tree—no extra `/src/mission/...` directories are required. tmux panes provide isolation while keeping Git state in sync.
 
+Need the full checklist? See `docs/operations/getting_started.md` for the
+step-by-step flight plan paired with `from_maverick_to_codex.md`.
+
 ### Example Launch Output
 ```
 $ make tmux
