@@ -63,6 +63,8 @@ make tmux          # launch the multi-pane codex session configured for all pers
 make docs-dev      # live reload Astro site sourced from /docs
 make docs-build    # produce static site output in site/dist
 make verify        # run lint + tmux launch test + telemetry probe
+make venv          # build/update FastAPI virtualenv (.venv/)
+make clone-template # clone or update the talktomegoose_test repo for missions
 ```
 
 ### Mission Run Loop
@@ -71,6 +73,7 @@ make verify        # run lint + tmux launch test + telemetry probe
 3. **Baseline Check**: `make test-unit` before coding to confirm the FastAPI template imports cleanly.
 4. **Develop**: personas work from the single repo root (`talktomegoose/`), following Maverick’s branch orders in `handoffs/inbox.md`.
 5. **Validate**: run `make verify` (or `pnpm test` with `ENABLE_TELEMETRY_TEST=1` when telemetry is wired) before handing changes back to Maverick.
+6. Optional: `make clone-template` pulls the shared test repo (`taituo/talktomegoose_test`) so Maverick can monitor remote branches.
 
 All personas share this working tree—no extra `/src/mission/...` directories are required. tmux panes provide isolation while keeping Git state in sync.
 
