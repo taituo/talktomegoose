@@ -54,39 +54,58 @@ Talk to Me Goose is a collaborative sandbox showing how multiple Codex agents ca
 - Interface: Codex CLI inside tmux panes bootstrapped by `scripts/start_tmux_codex.sh`.
 - Source control: Git with per-persona author identities and mission-branch workflows.
 - Coordination: Structured Markdown logs, ADRs, the mission inbox, and the Astro doc site.
+- Codebase agnostic: the squad can fly against any repository; optional templates (`templates/`) and monitors (`demotime`) stay opt-in.
 
 ## Quickstart
 ```bash
-make help          # list available ground operations
-make bootstrap     # install tmux + node + pnpm + astro prerequisites (Ubuntu/Debian)
-make mission-control # launch the multi-pane Codex tmux session (alias of make tmux)
-make mission-all   # run clone-template, pnpm install, optional venv, verify
+make help             # list available ground operations
+make bootstrap        # install tmux + node + pnpm + astro prerequisites (Ubuntu/Debian)
+make mission-package  # scaffold missions/<slug>/{task,brief}.md (MISSION=... required)
+make mission-control  # launch the multi-pane Codex tmux session (alias of make tmux)
+make mission-all      # run clone-template, pnpm install, optional venv, verify
 make mission-story-check # validate storyteller outline vs chapters
-make demotime     # prep FastAPI + dashboard demo and print run commands
-make mission-clean # stop tmux/uvicorn/next demo processes
+make demotime         # (optional) prep FastAPI + dashboard demo and print run commands
+make demotime-start   # (optional) launch FastAPI + dashboard in background (demotime-stop / demotime-status)
+make mission-clean    # stop tmux/uvicorn/next demo processes
 make start-local-registry # create local bare repos for personas
-make local-demo-repo     # create single bare repo (LOCAL_NAME=foo make ...)
-make update-repo   # git pull + pnpm install shortcut
-make inbox        # print current handoffs/inbox.md tasks
-make mission-log  # tail recent mission log entries
-make mission-status # show git graph for active branches
-make mission-summary # curl FastAPI dashboard summary (if running)
-make docs-dev      # live reload Astro site sourced from /docs
-make docs-build    # produce static site output in site/dist
-make verify        # run lint + tmux launch test + telemetry probe
-make venv          # build/update FastAPI virtualenv (.venv/)
-make clone-template # clone or update the talktomegoose_test repo for missions
+make local-demo-repo       # create single bare repo (LOCAL_NAME=foo make ...)
+make update-repo      # git pull + pnpm install shortcut
+make inbox            # print current handoffs/inbox.md tasks
+make mission-log      # tail recent mission log entries
+make mission-status   # show git graph for active branches
+make mission-summary  # curl FastAPI dashboard summary (if running)
+make docs-dev         # live reload Astro site sourced from /docs
+make docs-build       # produce static site output in site/dist
+make verify           # run lint + tmux launch test + telemetry probe
+make venv             # build/update FastAPI virtualenv (.venv/)
+make clone-template   # clone or update the talktomegoose_test repo for missions
 ```
 
-### Mission Run Loop
-1. **Bootstrap (once per VM)**: `make bootstrap` so every pane has tmux, Node, pnpm, and Astro.
-2. **Launch Cockpit**: `make mission-control` (alias: `make tmux`) to create the shared `goose` session, then attach personas with the Codex CLI.
-3. **Baseline Check**: `make test-unit` before coding to confirm the FastAPI template imports cleanly.
-4. **Develop**: personas work from the single repo root (`talktomegoose/`), following Maverick’s branch orders in `handoffs/inbox.md`.
-5. **Validate**: run `make verify` (or `pnpm test` with `ENABLE_TELEMETRY_TEST=1` when telemetry is wired) before handing changes back to Maverick.
-6. Optional: `make clone-template` pulls the shared test repo (`taituo/talktomegoose_test`) so Maverick can monitor remote branches (override `LOCAL_DEMO_REPO=/path/to/bare.git`).
-7. Want everything in one go? `make mission-all` runs cloning, dependency install, the optional venv (skip via `SKIP_VENV=1`), and the verification suite.
-8. `make demotime` prepares the FastAPI + dashboard demo and prints the commands to launch both services; `make mission-clean` tears them down.
+### Minimal Dependencies
+- Git + tmux (installed via `make bootstrap`) and an OpenAI Codex-capable account are the only hard requirements.
+- Agents may install additional tooling inside their working folders; add generated artefacts or caches to `.gitignore` to keep the repo clean.
+- The FastAPI API and mission dashboard are **optional** monitors. Skip them unless you need runtime telemetry.
+- See `dependencies.md` for the full breakdown of required vs optional tooling.
+
+### Mission Flow (Chain of Command)
+1. **Package the mission**: `make mission-package MISSION="..."` creates `missions/<slug>/task.md` and `brief.md`. Fill in objectives, specs, and constraints.
+2. **Brief the squad**: Maverick reviews the brief, updates `handoffs/inbox.md`, and launches Mission Control with `make mission-control`. Codex panes start with the common briefing message.
+3. **Work the dev lane**: personas collaborate on the shared `dev` branch (or feature branches that merge into `dev`). Push updates frequently so Maverick can track progress.
+4. **Milestone + testing (optional)**: when the task reaches a milestone, Rooster can coordinate deeper testing or call in a specialised agent (e.g., a Docker/database operator). Routine unit checks stay local to each developer.
+5. **Merge & debrief**: Maverick promotes approved work from `dev` to `main`, captures debrief notes in `missions/<slug>/brief.md`, and updates the mission log/documentation.
+
+Keep the inbox and mission log in sync so personas always know the latest orders. If the task references external specs, include the link in the mission package before launch.
+
+### Optional Monitoring Stack
+- `make demotime` + `make demotime-start` spin up the FastAPI template and mission dashboard purely for situational awareness. Skip them if you only need tmux + git.
+- Override ports with `DEMO_FASTAPI_PORT` / `DEMO_DASHBOARD_PORT` (and matching `NEXT_PUBLIC_API_BASE_URL`) to avoid clashes when other services are running.
+- `scripts/demo_servers.sh` stores PIDs under `.demo/` and logs output to `logs/demo-*.log`; use `make demotime-status` before starting new services to prevent collisions.
+- Special-purpose infrastructure (databases, queues, etc.) can be introduced by a dedicated agent. Run it inside the VM or Docker; document the port and teardown steps in the mission brief.
+
+Need everything in one go? `make mission-all` runs cloning, dependency install,
+the optional venv (skip via `SKIP_VENV=1`), and the verification suite. Follow
+up with `make demotime` + `make demotime-start` if you want the monitoring
+stack and `make mission-clean` to tear it down.
 
 ### Demo Repo Options
 - **GitHub (default)**: leave settings as-is and `make clone-template` will use `git@github.com:taituo/talktomegoose_test.git`.

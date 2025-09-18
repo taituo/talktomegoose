@@ -11,11 +11,18 @@ tooling installed, just pull the latest changes and jump to section 2.
 1. Clone or update the repo: `git clone git@github.com:taituo/talktomegoose.git`
    (or `git pull` inside the existing checkout).
 2. Run `make bootstrap` **once per machine** to install tmux, Node 20, pnpm, and Astro.
-3. Run `make venv` **only if** you plan to use the optional FastAPI template; it creates or refreshes `.venv/` directly.
-4. Run `make clone-template` to clone or update the shared `talktomegoose_test/` playground repository (or let `make mission-all` handle the full sequence).
-5. Need the full demo stack (FastAPI + dashboard)? Use `make demotime` to install all dependencies and display launch commands.
+3. Confirm you have an OpenAI Codex-capable account and the Codex CLI configured on the VM.
+4. Run `make venv` **only if** you plan to use the optional FastAPI template; it creates or refreshes `.venv/` directly.
+5. Run `make clone-template` to clone or update the shared `talktomegoose_test/` playground repository (or let `make mission-all` handle the full sequence).
+6. Need the monitoring stack (FastAPI + dashboard)? Use `make demotime` to install all dependencies and display launch commands. Skip this if tmux + git are sufficient.
 
-## 2. Launch Mission Control
+## 2. Build the Mission Package
+1. Create the scaffolding: `make mission-package MISSION="Flight Check" SPEC=https://…`.
+2. Fill in `missions/<slug>/task.md` with objectives, constraints, and deliverables.
+3. Ensure `missions/<slug>/brief.md` lists the agent roster, chain of command, and any optional infrastructure.
+4. Note any special services (Docker containers, databases, queues) plus their ports so the squad avoids conflicts.
+
+## 3. Launch Mission Control
 1. Start the tmux layout: `make mission-control` (alias: `make tmux`).
 2. Attach Codex sessions in each pane (`codex --persona <Name> --cwd ...`).
 3. Observers join read-only with `tmux attach -t goose -r`.
@@ -23,22 +30,22 @@ tooling installed, just pull the latest changes and jump to section 2.
    - `make inbox` — print tasks from `handoffs/inbox.md`
    - `make mission-log` — tail recent entries in `logs/mission.log`
    - `make mission-status` — show a compact git graph
-   - `make mission-summary` — curl the FastAPI dashboard summary (requires server)
+   - `make mission-summary` — curl the FastAPI dashboard summary (requires server; honour `DEMO_FASTAPI_PORT` if you changed ports)
 5. Need local remotes? Run `make start-local-registry` (or `LOCAL_NAME=foo make local-demo-repo`) and set `LOCAL_DEMO_REPO=/path/to/local_registry/<persona>.git` before `make mission-all`.
 
-## 3. Run the Ready Check
+## 4. Run the Ready Check
 - Open `from_to.md` in the Maverick pane.
 - Capture operator answers (VM health, Codex access, template plan).
 - Log decisions in `handoffs/inbox.md` and `logs/mission.log`.
 
-## 4. Execute the Mission Loop
-1. `make test-unit` — FastAPI template smoke test before coding.
-2. Personas implement tasks from the shared repo root (`talktomegoose/`).
-3. `make verify` — lint + pnpm tests (set `ENABLE_TELEMETRY_TEST=1` when the telemetry endpoint exists).
-4. Maverick reviews branches and merges after Rooster signs off.
-5. `make clone-template` as needed (or run `make mission-all` / `make demotime` to rerun the prep cycle) so Maverick can monitor remote branches on `talktomegoose_test`.
+## 5. Execute the Mission Loop
+1. Personas execute from `dev` (or feature branches that merge into `dev`) based on the mission brief and inbox prompts.
+2. Run lightweight tests locally as you code; record noteworthy results in your Codex transcript.
+3. When a milestone is ready, Rooster (or a specialised agent) can trigger broader verification, pull in Dockerised services, or stage data as required.
+4. Maverick reviews the milestone, merges into `main`, and records the decision and debrief items in `missions/<slug>/brief.md` plus `logs/mission.log`.
+5. `make clone-template` as needed (or rerun `make mission-all` / `make demotime`) so Maverick can monitor remote branches on `talktomegoose_test`.
 
-## 5. Wrap Up
+## 6. Wrap Up
 - Update radio checks and ADRs.
 - Run `make docs-build` if docs changed.
 - Commit, push, and archive mission artifacts.

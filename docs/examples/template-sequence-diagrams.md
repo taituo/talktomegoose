@@ -1,20 +1,23 @@
 # Template Sequence Diagrams
 
-Mermaid diagrams showing how personas can collaborate around the FastAPI
-scaffold found in `templates/fastapi/`.
+Mermaid diagrams showing how personas can collaborate around the optional
+FastAPI scaffold in `templates/fastapi/`. Treat the API + dashboard as
+monitoring utilities—tmux + git remain the primary collaboration layer.
 
 ## Simple Edition
 ```mermaid
 sequenceDiagram
   autonumber
   participant Pilot as Maverick
+  participant Brief as Mission Brief
   participant Hangman as Hangman (Backend)
-  participant API as FastAPI Template
+  participant Dev as dev branch
 
-  Pilot->>Hangman: "Spin up CRUD endpoints"
-  Hangman->>API: Implement /items routes in main.py
-  API-->>Hangman: Automated smoke test passes
-  Hangman-->>Pilot: Opens PR with CRUD endpoints
+  Pilot->>Brief: Publish mission package + chain of command
+  Brief-->>Hangman: Assign CRUD task + spec URL
+  Hangman->>Dev: Push feature work into dev branch
+  Hangman-->>Pilot: Ping ready for optional testing
+  Pilot->>Dev: Merge milestone after spot checks
 ```
 
 ## Advanced Edition
@@ -25,15 +28,14 @@ sequenceDiagram
   participant Goose as Goose (Core)
   participant Hangman as Hangman (Backend)
   participant Rooster as Rooster (QA)
-  participant Telemetry as Telemetry Client
+  participant Monitor as Optional Monitor Stack
 
   Maverick->>Goose: Request shared repository helpers
   Goose->>Hangman: Provide reusable CRUD service class
-  Hangman->>Telemetry: Expose POST /telemetry on FastAPI router
-  Telemetry-->>Hangman: Send signed payload
-  Rooster->>Hangman: Run pytest suite under templates/fastapi/tests
-  Hangman-->>Rooster: Test results green
-  Rooster-->>Maverick: Ready for merge call
+  Hangman->>Monitor: Publish telemetry endpoint (optional)
+  Rooster->>Hangman: Kick off milestone verification
+  Hangman-->>Rooster: Test results + logs
+  Rooster-->>Maverick: Green light for merge into main
 ```
 
 ## Hallucinated Edition
