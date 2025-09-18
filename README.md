@@ -99,7 +99,8 @@ cdx-specs() {
 ### When you need more
 ```
 make help             # list the targets below
-make bootstrap        # install tmux + Node + pnpm + Astro (only if missing)
+make bootstrap        # install tmux only (minimal bootstrap)
+make app              # install tmux + Node + pnpm + Astro + Python tooling
 make mission-package  # scaffold missions/<slug>/{task,brief}.md (MISSION=... required)
 make mission-all      # heavier prep: clone demo repo, install deps, run checks
 make update-repo      # git pull + pnpm install shortcut
@@ -182,7 +183,7 @@ tmux start script validated
 1. Provision a VM (8 vCPU, 16 GB RAM recommended; minimum free disk 5 GB) and confirm `tmux -V` returns ≥ 3.2.
 2. Clone `git@github.com:taituo/talktomegoose.git` via SSH and ensure Maverick holds deploy-key access.
 3. Satisfy Codex account requirements in `docs/operations/codex-requirements.md` (ChatGPT Plus, valid session token, quota awareness).
-4. Run `make bootstrap` or manually install tmux, Node 20, pnpm, and Astro.
+4. Run `make bootstrap` for tmux (minimum), and `make app` if you also want Node 20, pnpm, Astro, and Python tooling preinstalled.
 5. Place shared SSH keys under `ops/ssh/` and configure `~/.ssh/config` if agents will push from the VM.
 6. Launch the tmux layout with `make tmux`. Each pane spawns `gpt-codex` via the persona env files.
 7. Sync the mission inbox (`handoffs/inbox.md`) to claim tasks and confirm branch orders from Maverick.

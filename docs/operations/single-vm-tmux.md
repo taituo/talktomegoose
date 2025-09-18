@@ -11,10 +11,7 @@ All personas share one VM but operate from individual Git workspaces located at 
 
 ## Bootstrap Steps
 1. Clone repo using SSH: `git clone git@github.com:taituo/talktomegoose.git`.
-2. Run `make bootstrap` to install:
-   - tmux >= 3.2
-   - Node.js 20.x + pnpm
-   - Python3 (for auxiliary scripts)
+2. Aja `make bootstrap` asentaaksesi tmuxin (tai käytä omaa paketinhallintaa). Tarvitsetko Node 20:n, pnpm:n, Astron ja Python-työkalut valmiiksi? Aja silloin `make app`.
 3. Copy `.env.example` to `.env` and set secrets if needed.
 4. Launch `make mission-control` (alias: `make tmux`) to deploy the `goose` session (or run `make mission-all` / `make demotime` to perform cloning, dependency install, venv, and checks in one go). The launch script calls `scripts/setup_persona_workspaces.sh` to create/refresh per-persona clones under `personas/`.
 5. Before personas start coding, run `make test-unit` to confirm the FastAPI template imports successfully; Rooster logs the result.

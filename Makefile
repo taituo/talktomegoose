@@ -1,6 +1,6 @@
 SHELL := /usr/bin/env bash
 
-.PHONY: help clone-template bootstrap tmux tmux-observe mission-control mission-all mission-story-check demotime mission-clean inbox mission-log mission-status mission-summary start-local-registry local-demo-repo update-repo docs-install docs-dev docs-build lint test-unit verify fetch-deps venv venv-clean
+.PHONY: help clone-template bootstrap app tmux tmux-observe mission-control mission-all mission-story-check demotime mission-clean inbox mission-log mission-status mission-summary start-local-registry local-demo-repo update-repo docs-install docs-dev docs-build lint test-unit verify fetch-deps venv venv-clean
 
 help: ## Show available ground operations
 	@grep -E '^[a-zA-Z_-]+:.*?##' Makefile | sort | awk 'BEGIN {FS = ":.*?##"} {printf "\033[36m%-16s\033[0m %s\n", $$1, $$2}'
@@ -27,8 +27,11 @@ clone-template: ## Clone or update the demo repo (override DEMO_REMOTE or LOCAL_
 		fi; \
 	fi
 
-bootstrap: ## Install tmux, Node.js, pnpm, and Astro globally
+bootstrap: ## Install tmux (minimal setup)
 	sudo scripts/bootstrap_vm.sh
+
+app: ## Install full app stack (tmux + Node.js + pnpm + Astro + Python tooling)
+	sudo scripts/install_app_stack.sh
 
 tmux: ## Launch multi-pane Codex tmux session
 	scripts/start_tmux_codex.sh

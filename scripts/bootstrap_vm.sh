@@ -7,13 +7,6 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 apt-get update
-apt-get install -y tmux curl git build-essential python3 python3-venv
+apt-get install -y tmux
 
-if ! command -v node >/dev/null 2>&1; then
-  curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
-  apt-get install -y nodejs
-fi
-
-npm install -g pnpm astro@latest
-
-echo "Bootstrap complete."
+echo "Bootstrap complete (tmux installed)."

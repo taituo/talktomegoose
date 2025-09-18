@@ -4,13 +4,14 @@ Keep installs light so the squad can land on any VM quickly.
 
 ## Core (required)
 - **tmux** – shared cockpit so every Codex persona can attach to the same
-  session without spawning extra SSH connections.
+  session without spawning extra SSH connections. Install with `make bootstrap`
+  (tmux only) or your distro package manager.
 - **Codex CLI** – persona interface. Each tmux pane runs `codex` with the
   persona profile; without it panes are just idle shells.
 - **Git + SSH** – single repo and mission remotes. SSH keys let personas push
   their work back to the operator or demo remote.
-- **Node 20 + pnpm** – repo tooling (lint/tests/mission dashboard). Installed by
-  `make bootstrap`.
+- **Node 20 + pnpm** – repo tooling (lint/tests/mission dashboard). Install via
+  `make app` if you need the full stack prepped for all personas.
 
 ## Optional layers
 - **Python 3 + `.venv`** – only when running the FastAPI template or other

@@ -11,9 +11,10 @@ tooling installed, just pull the latest changes and jump to section 2.
 1. Clone or update the repo: `git clone git@github.com:taituo/talktomegoose.git`
    (or `git pull` inside the existing checkout).
 2. Confirm you have an OpenAI Codex-capable account and the Codex CLI configured on the VM.
-3. If tmux (and, optionally, Node 20 + pnpm + Astro) are missing, run
-   `make bootstrap` **once per machine**. Skip it when those packages already
-   exist—you can launch missions without installing the demo stack.
+3. Jos tmux puuttuu, aja `make bootstrap` **kerran per kone** (tai asenna se
+   pakettivarastosta). Tarvitsetko Node 20:n, pnpm:n, Astron ja Python-työkalut
+   valmiiksi? Aja `make app`; ohita se, jos haluat pysyä kevyessä tmux+git
+   kokoonpanossa.
 4. Run `make venv` **only if** you plan to use the optional FastAPI template;
    it creates or refreshes `.venv/` directly.
 5. Run `make clone-template` to clone or update the shared
