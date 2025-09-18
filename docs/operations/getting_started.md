@@ -1,7 +1,7 @@
 # Getting Started Flight Plan
 
 This quick brief shows operators and Maverick how to bring Talk to Me Goose
-online on a single VM. Pair it with `from_maverick_to_codex.md` for the
+online on a single VM. Pair it with `from_to.md` for the
 canonical Ready Check script.
 
 ## 1. Prepare (or resume) the VM
@@ -27,7 +27,7 @@ tooling installed, just pull the latest changes and jump to section 2.
 5. Need local remotes? Run `make start-local-registry` (or `LOCAL_NAME=foo make local-demo-repo`) and set `LOCAL_DEMO_REPO=/path/to/local_registry/<persona>.git` before `make mission-all`.
 
 ## 3. Run the Ready Check
-- Open `from_maverick_to_codex.md` in the Maverick pane.
+- Open `from_to.md` in the Maverick pane.
 - Capture operator answers (VM health, Codex access, template plan).
 - Log decisions in `handoffs/inbox.md` and `logs/mission.log`.
 
@@ -42,3 +42,4 @@ tooling installed, just pull the latest changes and jump to section 2.
 - Update radio checks and ADRs.
 - Run `make docs-build` if docs changed.
 - Commit, push, and archive mission artifacts.
+- Shut everything down with `make mission-clean` if the VM is rotating to another squad.

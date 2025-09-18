@@ -16,9 +16,10 @@ All personas share one VM and one repo clone. tmux keeps Codex agents isolated p
    - Node.js 20.x + pnpm
    - Python3 (for auxiliary scripts)
 3. Copy `.env.example` to `.env` and set secrets if needed.
-4. Launch `make mission-control` (alias: `make tmux`) to deploy the `goose` session (or run `make mission-all` to perform cloning, dependency install, venv, and checks in one go).
+4. Launch `make mission-control` (alias: `make tmux`) to deploy the `goose` session (or run `make mission-all` / `make demotime` to perform cloning, dependency install, venv, and checks in one go).
 5. Before personas start coding, run `make test-unit` to confirm the FastAPI template imports successfully; Rooster logs the result.
 6. Cycle `make verify` (lint + pnpm test) prior to merges; set `ENABLE_TELEMETRY_TEST=1` when the telemetry endpoint exists.
+7. Need local or private remotes? Use `make start-local-registry` or `LOCAL_DEMO_REPO=/path/to/bare.git make mission-all` to switch away from the default GitHub repo.
 
 ## tmux Layout
 - Session name: `goose`
@@ -32,6 +33,7 @@ All personas share one VM and one repo clone. tmux keeps Codex agents isolated p
 ## Shared Working Tree
 - Everyone operates from the cloned repository root (`talktomegoose/`).
 - Persona panes provide isolation, so do **not** create per-persona copies under `/src/mission/...`—it breaks the synchronized workflow.
+- Use `make mission-clean` to tear down tmux and demo services when rotating crews or resetting the VM.
 
 ## Shared Artifacts
 - `logs/mission.log` — appended by Maverick after major calls

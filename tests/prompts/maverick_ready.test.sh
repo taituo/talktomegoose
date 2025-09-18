@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-FILE="from_maverick_to_codex.md"
+FILE="from_to.md"
 SEARCH_TERMS=("Ready Check" "Boilerplate Usage" "Codex Access" "Simulation Remote" "Personas joining")
 
 for term in "${SEARCH_TERMS[@]}"; do

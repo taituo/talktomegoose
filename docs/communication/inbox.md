@@ -1,6 +1,6 @@
 # Mission Inbox Protocol
 
-Every persona starts their shift by pulling tasks from the shared mission inbox. The inbox is a rolling queue kept in `handoffs/inbox.md` (or a dated variant) that Maverick curates after each radio check. Pair this guide with `from_maverick_to_codex.md` (for Ready Check context) and `docs/operations/single-vm-tmux.md` (for repo hygiene).
+Every persona starts their shift by pulling tasks from the shared mission inbox. The inbox is a rolling queue kept in `handoffs/inbox.md` (or a dated variant) that Maverick curates after each radio check. Pair this guide with `from_to.md` (for Ready Check context) and `docs/operations/single-vm-tmux.md` (for repo hygiene).
 
 ## Daily Drill
 1. `git pull` to sync the latest inbox updates and branch assignments.

@@ -87,6 +87,13 @@ make clone-template # clone or update the talktomegoose_test repo for missions
 7. Want everything in one go? `make mission-all` runs cloning, dependency install, the optional venv (skip via `SKIP_VENV=1`), and the verification suite.
 8. `make demotime` prepares the FastAPI + dashboard demo and prints the commands to launch both services; `make mission-clean` tears them down.
 
+### Demo Repo Options
+- **GitHub (default)**: leave settings as-is and `make clone-template` will use `git@github.com:taituo/talktomegoose_test.git`.
+- **Existing remote**: set `DEMO_REMOTE=git@github.com:you/your-repo.git make mission-all`.
+- **Local bare repo**: `make start-local-registry` (creates `local_registry/<persona>.git`); then `LOCAL_DEMO_REPO=$(PWD)/local_registry/Maverick.git make mission-all`.
+- **Ad-hoc local repo**: `LOCAL_NAME=novel make local-demo-repo` and point `LOCAL_DEMO_REPO` at the resulting path.
+- Maverick can repoint to any repo—even production. Add guard rails (branches, approvals) before allowing pushes to `main`.
+
 > FastAPI template note: it’s just an example payload for missions that want a
 > sample backend. If you don’t need it, skip `make venv` and ignore the template
 > directory; tmux + Git coordination works without it.
@@ -94,7 +101,7 @@ make clone-template # clone or update the talktomegoose_test repo for missions
 All personas share this working tree—no extra `/src/mission/...` directories are required. tmux panes provide isolation while keeping Git state in sync.
 
 Need the full checklist? See `docs/operations/getting_started.md` for the
-step-by-step flight plan paired with `from_maverick_to_codex.md`.
+step-by-step flight plan paired with `from_to.md`.
 
 ### Example Launch Output
 ```
@@ -167,12 +174,12 @@ The `site/` directory houses an Astro project that ingests Markdown from `docs/`
 Fly safe, keep the chatter clear, and always talk to your Goose.
 
 ## HOW: Mission Spin-Up
-- **Base prompt for Maverick**: see `from_maverick_to_codex.md` for the canonical kickoff instructions that brief Codex on mission goals, resource constraints, and approval rules.
+- **Base prompt for Maverick**: see `from_to.md` for the canonical kickoff instructions that brief Codex on mission goals, resource constraints, and approval rules.
 - **First contact**: Open a tmux pane, source `scripts/persona_env/Maverick.env`, and start Codex with `codex --persona Maverick --cwd /path/to/repo`.
 - **Idea intake**: New contributors present mission intent to Maverick; once approved, Maverick relays tasks down the flight tree.
 - **Branching**: Each developer operates on mission-specific branches (`feature/<persona>-<call-sign>`). Merge approval flows back through Maverick.
 - **Inbox discipline**: Claim work from `handoffs/inbox.md`; Maverick seeds the first commit on new missions, then instructs which branch each persona should use.
-- **Ready Check**: Complete the template inside `from_maverick_to_codex.md` (covering Codex access, boilerplate usage, branch targets) before letting personas unmute.
+- **Ready Check**: Complete the template inside `from_to.md` (covering Codex access, boilerplate usage, branch targets) before letting personas unmute.
 - **Scaling personas**: To add Selenium or other specialized personas, duplicate an env file, update the tmux script with a new pane, and extend docs under `docs/personas/`.
 
 ## Demo Milestones
