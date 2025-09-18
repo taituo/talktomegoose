@@ -141,7 +141,7 @@ lint: ## Run Biome lint/format checks
 	pnpm lint
 
 test-unit: ## Execute FastAPI template smoke test
-	python3 templates/fastapi/tests/smoke.py
+	PYTHONPATH=. python3 templates/fastapi/tests/smoke.py
 
 venv: ## Create or update Python virtualenv for FastAPI missions
 	python3 -m venv .venv
