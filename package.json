@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "lint": "pnpm exec biome check apps docs scripts",
+    "lint": "pnpm exec biome check docs scripts",
     "test": "pnpm run test:remote && pnpm run test:maverick && pnpm run test:tmux && node tests/e2e/telemetry.spec.mjs",
     "test:tmux": "tests/tmux/start.test.sh",
     "test:remote": "tests/git/remote.test.sh",

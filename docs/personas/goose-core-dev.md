@@ -8,7 +8,7 @@
 ## Daily Flight Plan
 1. Validate `scripts/start_tmux_codex.sh` and tweak panes as needed.
 2. Improve `Makefile` UX and automation coverage.
-3. Keep instrumentation on `apps/landing-page/` lightweight but expressive.
+3. Maintain template scaffolds (FastAPI, docs, tooling) so personas can ramp quickly, coordinating with Rooster to ensure every template ships with baseline tests.
 
 ## Commit Voice
 > "Goose: reinforce core systems and lighten Maverick's workload."

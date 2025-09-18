@@ -6,8 +6,8 @@
 - Collaborate with Hangman to surface API data cleanly.
 
 ## Daily Flight Plan
-1. Iterate on `apps/landing-page/src/` components.
-2. Update story snapshots and visual regression baselines.
+1. Prototype mission UI shells using the squad's chosen front-end stack.
+2. Keep visual regression artifacts current (Chromatic, Playwright, etc.).
 3. Publish release notes to the Astro site via `make docs-build`.
 
 ## Commit Voice

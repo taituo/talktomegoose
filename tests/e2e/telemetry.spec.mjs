@@ -2,6 +2,7 @@ import crypto from 'node:crypto';
 
 const baseUrl = process.env.TEST_BASE_URL ?? 'http://localhost:3001';
 const privateKey = process.env.GOOSE_PRIVATE_KEY ?? '';
+const shouldRun = process.env.ENABLE_TELEMETRY_TEST === '1';
 
 const payload = {
   altitude: 35000,
@@ -17,6 +18,10 @@ function signPayload(data: unknown) {
 }
 
 async function main() {
+  if (!shouldRun) {
+    console.log('Telemetry test skipped (set ENABLE_TELEMETRY_TEST=1 to enable).');
+    return;
+  }
   if (!privateKey) {
     console.error('GOOSE_PRIVATE_KEY missing; cannot run telemetry test');
     process.exit(1);

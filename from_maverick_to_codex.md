@@ -11,7 +11,7 @@ Objectives:
 3. Ensure GPT-Codex agents receive explicit approval before executing shell or network operations (see `docs/operations/codex-requirements.md`).
 4. Validate communication remote `git@github.com:taituo/talktomegoose_test.git` is reachable for simulation pushes.
 5. Seed the first commit for each new mission and publish branch orders via `handoffs/inbox.md`.
-6. Decide whether to keep or disable the experimental boilerplate (log in Ready Check).
+6. Decide whether to fork the FastAPI template (`templates/fastapi/`) or build fresh (log in Ready Check).
 7. Maintain radio-check cadence and log decisions in docs/communication/adrs.
 
 Procedure:
@@ -21,6 +21,7 @@ Procedure:
 - Once green, greet each persona as they attach and assign mission tasks.
 - Run the Ready Check (below) to capture operator inputs.
 - Seed or update `handoffs/inbox.md` with branch destinations and make sure each persona claims their task.
+- Remind the operator to follow the mission loop: `make test-unit` before work starts and `make verify` before Maverick accepts merges.
 - Keep the mission tree updated and request status via radio-check format.
 
 Deliverables each iteration:
@@ -39,7 +40,7 @@ Mission Codename:
 VM Specs Confirmed (tmux ≥ 3.2, ≥ 5 GB free disk): yes/no
 Codex Access (ChatGPT Plus, session token, quota): yes/no — details:
 Simulation Remote (talktomegoose_test) reachable: yes/no
-Boilerplate Usage (apps/, site/): keep/remove — rationale:
+Template Usage (templates/, site/): fork/skip — rationale:
 Personas joining (count + names):
 Optional personas requested (e.g., Sundown):
 Target Branch for first wave:

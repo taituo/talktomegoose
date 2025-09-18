@@ -1,7 +1,7 @@
 # Single-VM Operations Guide
 
 ## Overview
-All personas share one VM and one repo clone. tmux keeps Codex agents isolated per pane while sharing filesystem state.
+All personas share one VM and one repo clone. tmux keeps Codex agents isolated per pane while sharing filesystem state. A human operator (Ground Control) owns the VM, launches the `goose` session, and approves any automation the personas request.
 
 ## VM Requirements
 - Ubuntu 22.04 LTS or later
@@ -16,7 +16,9 @@ All personas share one VM and one repo clone. tmux keeps Codex agents isolated p
    - Node.js 20.x + pnpm
    - Python3 (for auxiliary scripts)
 3. Copy `.env.example` to `.env` and set secrets if needed.
-4. Launch `make tmux`.
+4. Launch `make tmux` to deploy the `goose` session.
+5. Before personas start coding, run `make test-unit` to confirm the FastAPI template imports successfully; Rooster logs the result.
+6. Cycle `make verify` (lint + pnpm test) prior to merges; set `ENABLE_TELEMETRY_TEST=1` when the telemetry endpoint exists.
 
 ## tmux Layout
 - Session name: `goose`
@@ -27,13 +29,17 @@ All personas share one VM and one repo clone. tmux keeps Codex agents isolated p
   4. `ops`: Hondo pane tailing logs
 - Key bindings: prefix `Ctrl-a`, `Ctrl-a r` reloads config, `Ctrl-a D` detaches others.
 
+## Shared Working Tree
+- Everyone operates from the cloned repository root (`talktomegoose/`).
+- Persona panes provide isolation, so do **not** create per-persona copies under `/src/mission/...`—it breaks the synchronized workflow.
+
 ## Shared Artifacts
 - `logs/mission.log` — appended by Maverick after major calls
 - `logs/tests/latest.json` — produced by Rooster's test runs
 - `handoffs/` — per-shift summaries
 - `handoffs/inbox.md` — queue of persona tasks seeded by Maverick
 - Git remote `talktomegoose_test` — external playground repo used to validate communication tests
-- `docs/boilerplate/experimental.md` — optional starter kit status
+- `docs/templates/fastapi.md` — template hangar status
 
 ## Git Discipline
 - Each persona sets `GIT_AUTHOR_NAME` and `GIT_AUTHOR_EMAIL` using `scripts/persona_env/<persona>.env`.

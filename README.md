@@ -13,6 +13,9 @@ You are Maverick, the master of the **Talk to Me Goose** squadron.
 - **Phoenix** — Full-stack developer building the landing experience
 - **Hangman** — Backend developer delivering APIs and data models
 
+### Ground Control (Outside the Roster)
+- **Operator** — the human running the VM and tmux session; boots Codex panes, approves automation, and keeps the squad on mission timeline.
+
 ### Agentic Flight Ops
 This repo models an agentic Codex coding stack. Each persona is a Codex CLI instance speaking through structured `output` → `input` turns. Communication is enforced by branches, spec files, and the mission inbox so the squad never loses situational awareness:
 
@@ -32,6 +35,10 @@ Maverick (mission lead)
 - Each developer persona answers with `output` logs, requests help via `input` prompts, and hands artifacts back through git branches and spec markdown.
 - Any number of agents can mirror a persona (e.g., multiple Gooses) as long as they tag commits and panes with the persona name plus a numeric suffix.
 - Hondo tracks resource constraints and ensures GPT-Codex models have approvals to run from the shared VM.
+
+#### Read-Only Observation
+- Attach observers with `tmux attach -t goose -r` so they can watch personas without typing into panes.
+- Start the full cockpit first via `make tmux`; observers can join and leave freely.
 
 ## Mission Brief
 Talk to Me Goose is a collaborative sandbox showing how multiple Codex agents can co-develop a codebase from a single VM using tmux. It provides shared operating procedures, persona briefs, boilerplate feature stubs, and tooling to publish documentation as a static site.
@@ -57,6 +64,15 @@ make docs-dev      # live reload Astro site sourced from /docs
 make docs-build    # produce static site output in site/dist
 make verify        # run lint + tmux launch test + telemetry probe
 ```
+
+### Mission Run Loop
+1. **Bootstrap (once per VM)**: `make bootstrap` so every pane has tmux, Node, pnpm, and Astro.
+2. **Launch Cockpit**: `make tmux` to create the shared `goose` session, then attach personas with the Codex CLI.
+3. **Baseline Check**: `make test-unit` before coding to confirm the FastAPI template imports cleanly.
+4. **Develop**: personas work from the single repo root (`talktomegoose/`), following Maverick’s branch orders in `handoffs/inbox.md`.
+5. **Validate**: run `make verify` (or `pnpm test` with `ENABLE_TELEMETRY_TEST=1` when telemetry is wired) before handing changes back to Maverick.
+
+All personas share this working tree—no extra `/src/mission/...` directories are required. tmux panes provide isolation while keeping Git state in sync.
 
 ### Example Launch Output
 ```
@@ -93,7 +109,7 @@ tmux start script validated
 9. Ensure the simulation remote `git@github.com:taituo/talktomegoose_test.git` is reachable; `tests/git/remote.test.sh` will auto-wire it as `talktomegoose_test` if missing.
 
 ## Boilerplate Airframe (Optional)
-An experimental starter kit lives in `apps/` and `site/`. Review `docs/boilerplate/experimental.md` before enabling it. Maverick must log whether the crew will keep or strip it during the Ready Check. If adopted, Goose + Phoenix own the landing page/backend integration; otherwise archive the directories after filing an ADR.
+Template scaffolds now live in `templates/` (see `docs/templates/fastapi.md`). Maverick records during the Ready Check whether the crew will fork the FastAPI starter or rebuild from scratch. Goose + Hangman shepherd shared utilities and routers, while Rooster insists every template change ships with matching tests; archive unused experiments after filing an ADR.
 
 **Quick Start Scenario**: Begin with Maverick (master) and a single developer (Goose). Maverick seeds the branch and fills the inbox, while Goose runs a tight loop: `git pull`, check inbox/specs, implement, `git push`. Advanced multi-persona missions follow the same pattern at larger scale.
 
@@ -109,7 +125,7 @@ The automated verification `tests/tmux/start.test.sh` runs this layout in dry-ru
 Detach with `Ctrl-b d`. Reattach via `tmux attach -t goose`.
 
 ## Documentation Site
-The `site/` directory houses an Astro project that ingests Markdown from `docs/` (including `docs/boilerplate/experimental.md`, `docs/operations/codex-requirements.md`, and all persona briefs). Build or preview via Make targets so the squad can browse the HUD and keep specifications current.
+The `site/` directory houses an Astro project that ingests Markdown from `docs/` (including `docs/templates/fastapi.md`, `docs/operations/codex-requirements.md`, and all persona briefs). Build or preview via Make targets so the squad can browse the HUD and keep specifications current.
 
 ## Communication Discipline
 - Follow the radio-check format in `docs/communication/radio-checks.md` for async updates.
@@ -124,7 +140,7 @@ The `site/` directory houses an Astro project that ingests Markdown from `docs/`
 ## Roadmap Ideas
 1. Add mission playback that replays tmux panes as asciinema sessions.
 2. Integrate CI pipelines that enforce persona-specific test suites.
-3. Publish a public web demo that consumes the sample API and landing page.
+3. Publish a public web demo that consumes the FastAPI template.
 
 Fly safe, keep the chatter clear, and always talk to your Goose.
 

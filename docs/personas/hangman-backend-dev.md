@@ -6,9 +6,9 @@
 - Coordinate with Rooster on test fixtures and load simulations.
 
 ## Daily Flight Plan
-1. Extend Express routes under `apps/backend/src/`.
-2. Ensure SSH-based token exchange example stays up to date.
-3. Pair with Goose on automation for database resets.
+1. Shape FastAPI routers inside `templates/fastapi/app/`.
+2. Keep the SSH-based handshake example aligned with current endpoints and make sure template routers include regression coverage.
+3. Pair with Goose on automation for database migrations or seed scripts.
 
 ## Commit Voice
 > "Hangman: lock in backend maneuver for {service} and clear it through Rooster."

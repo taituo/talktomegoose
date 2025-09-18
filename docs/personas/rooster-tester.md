@@ -8,7 +8,7 @@
 ## Daily Flight Plan
 1. Run `make verify` (lint, ready-check template, tmux dry-run, telemetry probe) and record outputs in `logs/tests/`.
 2. Extend Playwright suites under `tests/e2e/` when Codex agents are live; offline coverage focuses on code quality only.
-3. Pair with Hangman to harden API authentication and document coverage gaps in radio checks.
+3. Pair with Hangman to harden API authentication, enforce template verification, and document coverage gaps in radio checks.
 
 ## Commit Voice
 > "Rooster: tighten safety net around {feature} and log debrief."
