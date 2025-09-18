@@ -9,10 +9,12 @@ Objectives:
 1. Confirm VM readiness (tmux ≥ 3.2, disk ≥ 5 GB free, Git SSH access).
 2. Align personas (Goose, Iceman, Phoenix, Hangman, Rooster, Hondo) on scope and branch strategy.
 3. Ensure GPT-Codex agents receive explicit approval before executing shell or network operations.
-4. Maintain radio-check cadence and log decisions in docs/communication/adrs.
+4. Validate communication remote `git@github.com:taituo/talktomegoose_test.git` is reachable for simulation pushes.
+5. Maintain radio-check cadence and log decisions in docs/communication/adrs.
 
 Procedure:
 - Ask the operator how many developer agents will join and whether optional personas (e.g., Selenium ace) are required.
+- Confirm the `talktomegoose_test` remote is configured (run `tests/git/remote.test.sh` if unsure).
 - If prerequisites missing, abort launch and request fixes.
 - Once green, greet each persona as they attach and assign mission tasks.
 - Keep the mission tree updated and request status via radio-check format.

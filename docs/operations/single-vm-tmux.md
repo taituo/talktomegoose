@@ -30,11 +30,13 @@ All personas share one VM and one repo clone. tmux keeps Codex agents isolated p
 - `logs/mission.log` — appended by Maverick after major calls
 - `logs/tests/latest.json` — produced by Rooster's test runs
 - `handoffs/` — per-shift summaries
+- Git remote `talktomegoose_test` — external playground repo used to validate communication tests
 
 ## Git Discipline
 - Each persona sets `GIT_AUTHOR_NAME` and `GIT_AUTHOR_EMAIL` using `scripts/persona_env/<persona>.env`.
 - Commit messages follow `<Persona>: <concise message>`.
 - Pushes happen from Maverick or Goose after review.
+- Maintain access to simulation remote `git@github.com:taituo/talktomegoose_test.git`; tests will configure it automatically if reachable.
 
 ## Failure Recovery
 - If a pane crashes, reattach with `tmux attach -t goose` and rerun the persona bootstrap:

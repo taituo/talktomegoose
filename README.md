@@ -60,6 +60,11 @@ make verify        # run lint + tmux launch test + telemetry probe
 $ make tmux
 tmux session 'goose' deployed. Attach with: tmux attach -t goose
 
+$ tests/git/remote.test.sh
+Remote 'talktomegoose_test' already configured as git@github.com:taituo/talktomegoose_test.git
+<ref output>
+Remote communication validated for git@github.com:taituo/talktomegoose_test.git
+
 $ CODEX_DRY_RUN=1 tests/tmux/start.test.sh
 tmux start script validated
 ```
@@ -71,6 +76,7 @@ tmux start script validated
 4. Place shared SSH keys under `ops/ssh/` and configure `~/.ssh/config` if agents will push from the VM.
 5. Launch the tmux layout with `make tmux`. Each pane spawns `gpt-codex` via the persona env files.
 6. Use the radio-check protocol (`docs/communication/radio-checks.md`) to log status updates and branch assignments.
+7. Ensure the simulation remote `git@github.com:taituo/talktomegoose_test.git` is reachable; `tests/git/remote.test.sh` will auto-wire it as `talktomegoose_test` if missing.
 
 ## Boilerplate Airframe
 The repo includes a starter full-stack pattern so developers can bolt new features on quickly.
