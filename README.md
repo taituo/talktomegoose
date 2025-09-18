@@ -1,48 +1,48 @@
 # Talk to Me Goose (Archived)
 
-> This repository is no longer maintained. It remains public as a reference snapshot for the next iteration of multi-agent tooling.
+> This repository is no longer maintained. It remains public as a snapshot that future rebuilds can reference.
 
-## Miksi arkistoitiin?
-- Projekti oli hauska kokeilu, mutta ympäristöstä kehittyi vaikeasti ylläpidettävä: paneelit kaatuivat usein, automatisaatio hajosi, ja dokumentaatio vanheni nopeammin kuin sitä ehdittiin päivittää.
-- README ja skriptit ohjasivat jokaista personaa käyttämään erillistä repo-kloonia. Se eristi työn, mutta johti jatkuviin sync-ongelmiin ja tuplattuun historiaan.
-- Nykyiset käytännöt suosivat `git worktree` ‑tekniikkaa: useita työpuita yhdestä repositorystä, kukin omalla branchillaan. Se minimoi ylimääräiset kloonit ja helpottaa merge-prosessia.
-- Näiden “best practice” ‑aukkojen ja haurastuneen koodipohjan vuoksi on järkevämpää aloittaa alusta kuin yrittää paikkailla kaikkea.
+## Why it was archived
+- The experiment was fun, but the environment became fragile: panes crashed regularly, automation drifted, and docs went stale faster than we could edit them.
+- The old README and scripts pushed every persona into its own git clone. That isolation created constant sync headaches and duplicated history.
+- Current best practice is to lean on `git worktree`: multiple working trees from a single repository, each on its own branch. It avoids redundant clones and keeps merges tidy.
+- With those gaps—and the overall brittleness of the codebase—it is easier to start fresh than to patch every corner.
 
-## Mitä on jäljellä?
-Tämä repo on siivottu minimiin. Jäljelle jäi vain seuraavaa:
-- `docs/` – lyhyt suunnitelma seuraavan kierroksen rakentamiseksi.
-- `handoffs/` – esimerkki inbox-taulukosta (tyhjä runko).
-- `scripts/` – satunnaisia apureita, mutta mitään ei luvata toimivaksi sellaisenaan.
-- `Makefile` – sisältää vain kevyet toiminnot (tmux, siivous). Moni komentorivin tavoite on nyt stub.
+## What remains
+This repo was trimmed to the minimum:
+- `docs/` – a short roadmap for the next build.
+- `handoffs/` – a sample inbox table (empty shell).
+- `scripts/` – placeholder helpers; none are guaranteed to work.
+- `Makefile` – tiny helper targets (tmux notice, cleanup stub).
 
-Kaikki demot, templaatit, Astro-sivusto, FastAPI-kokeilut ja muut raskaat kansiot on irrotettu.
+All demos, templates, Astro assets, FastAPI experiments, and other heavy directories were removed.
 
-## Suunnitelma 1: Barebones-moniagentti (minimitoimiva)
-Tavoite on todistaa prosessi mahdollisimman pienesti ennen kuin teema viedään “Top Gun” ‑tasolle.
+## Plan 1: Barebones multi-agent loop (minimum viable)
+Prove the workflow with the smallest possible setup before reviving the full “Top Gun” theme.
 
-- **Roolit**: kaksi agenttia – Lead Developer ja Coder.
-- **Työjako**: Lead pilkkoo tehtävän, antaa ohjeet ja hyväksyy työn. Coder toteuttaa muutokset.
-- **Tekniikka**: yksi repo, yksi tmux-sessio, kaksi `codex`-paneelia.
-- **Git**: Lead työskentelee päähaarassa, Coder omalla feature-haarallaan (`feature/coder-…`), vetää/pushaa pienissä sykleissä.
-- **Valmiuden kriteeri**: kun tämä looppi toimii vakaasti (ilman jatkuvia käsijahtauksia), voidaan laajentaa seuraavaan suunnitelmaan.
+- **Roles**: two agents – Lead Developer and Coder.
+- **Flow**: Lead breaks down tasks, issues instructions, and signs off. Coder implements changes.
+- **Tooling**: single repository, one tmux session, two `codex` panes.
+- **Git**: Lead works on the main branch, Coder in a feature branch (`feature/coder-*`), pushing small increments.
+- **Success criteria**: the loop runs without constant manual babysitting.
 
-## Suunnitelma 2: Täysi “Talk to Me Goose” ‑kehys (laajennettu versio)
-Kun minimialusta on kunnossa, rakennetaan uusi versio seuraavilla parannuksilla:
+## Plan 2: Full “Talk to Me Goose” framework (expanded)
+After the baseline loop is stable, rebuild the full crew with solid foundations:
 
-- **Persoonat**: Maverick (lead), Goose (core-dev), Iceman (stability/review), Phoenix (frontend), Hangman (backend), Rooster (QA), Hondo (PM).
-- **Git worktreet**: `git worktree add personas/Goose feature/goose-core`, jne. Jokainen persona saa oman työpuun, mutta jakaa saman repositorion historian.
-- **tmux-orkestrointi**: Skripti, joka luo session, ikkunat ja paneelit sekä cd:ää oikeaan worktreehen ja käynnistää AI-CLI:n persona-prompteilla.
-- **Jaetut kanavat**: `handoffs/inbox.md` tehtäville ja kysymyksille, `logs/<persona>.md` tiivistelmille ja radio-checkeille.
-- **Commit-muoto**: `[Persona][Task#] Lyhyt viesti`, joka helpottaa Maverickin review’ta ja auditointia.
-- **Lisänäkymä**: valinnainen kontrollipaneeli, joka näyttää haarojen tilan tai tailaa logeja.
+- **Personas**: Maverick (lead), Goose (core dev), Iceman (stability/review), Phoenix (frontend), Hangman (backend), Rooster (QA), Hondo (PM).
+- **Git worktrees**: `git worktree add personas/Goose feature/goose-core`, etc. Each persona gets a worktree but shares one git history.
+- **tmux orchestration**: a script that creates the session, windows, panes, cds into the worktree, and launches the AI CLI with that persona’s prompt.
+- **Shared channels**: `handoffs/inbox.md` for tasks/questions, `logs/<persona>.md` for radio-check style updates.
+- **Commit format**: `[Persona][Task#] Short message` to streamline Maverick’s reviews.
+- **Optional control pane**: monitor git status or tail logs for quick situational awareness.
 
-## Miten tätä voi vielä hyödyntää
-Vaikka repo on arkistoitu, voit käyttää sitä pohjana:
+## How to reuse what’s here
+Even though the repo is archived, you can still use it as scaffolding:
 
-1. Forkkaa tai kloonaa.
-2. Siivoa loputkin legacy-scriptit ja rakenna Suunnitelma 1:n mukainen looppi.
-3. Kirjaa havaintoja `docs/`-kansioon ja tee ADR:ä ennen kuin laajennat Suunnitelma 2:een.
+1. Fork or clone it.
+2. Remove the remaining legacy stubs and implement Plan 1.
+3. Document findings in `docs/` and create ADRs before expanding to Plan 2.
 
-> ⚠️ **Varoitus**: mitään nykyisestä skriptistä tai Makefile-komennosta ei tueta virallisesti. Käytä omalla vastuulla ja mieluiten eristetyssä ympäristössä.
+> ⚠️ **Warning**: nothing in this codebase is supported. Use it at your own risk—and preferably inside an isolated environment.
 
-Lisenssi ja aiemmat materiaalit pysyvät CC0-ehdoilla. Onnistuneita lentoja seuraavalle miehistölle!
+License and prior material remain under CC0. Fly safe, future crew!

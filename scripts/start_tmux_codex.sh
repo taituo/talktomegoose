@@ -11,8 +11,8 @@ Future rebuild idea (see docs/roadmap.md):
   - open tmux session "goose" with panes pointing at each worktree
   - launch Codex in each pane with the appropriate prompt
 
-For nyt, käynnistä tmux käsin:
+For now, start tmux manually:
   tmux new-session -s goose
-  # lisää ikkunat/paneelit tarpeen mukaan
+  # add windows/panes as needed
 
 MSG
