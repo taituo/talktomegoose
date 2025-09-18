@@ -49,9 +49,9 @@ sequenceDiagram
   participant Docs as Boilerplate Docs
 
   Maverick->>Draft: "Where is the mission endpoint?"
-  Draft-->>Maverick: "Try GET /api/topgun/magic"
+  Draft-->>Maverick: "Try GET /api/talktomegoose/magic"
   note over Draft: Endpoint not defined in `apps/backend`
-  Maverick->>Express: GET /api/topgun/magic
+  Maverick->>Express: GET /api/talktomegoose/magic
   Express-->>Maverick: 404 Not Found
   Docs-->>Maverick: Read `docs/boilerplate/experimental.md`
   note over Maverick,Docs: Validate suggestions against source before coding
