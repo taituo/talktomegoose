@@ -52,6 +52,12 @@ All personas share one VM and one repo clone. tmux keeps Codex agents isolated p
 - Developer loop: `git pull`, review inbox/spec files, update code, run `make verify`, push commits.
 - Hondo (manager) maintains a CHANGELOG (e.g., `docs/communication/changelog.md`) summarizing each mission cycle.
 
+## Prompt Watchdog
+- Use `scripts/codex_prompt_watch.sh` to broadcast a reminder to each persona pane every 30 seconds (default) until the pane responds with `STANDBY`.
+- Example: `./scripts/codex_prompt_watch.sh` or `INTERVAL=60 PANES="lead.0 flightline.0" ./scripts/codex_prompt_watch.sh`.
+- The script captures pane output with `tmux capture-pane`; the marker can be changed via `MARKER="DONE"`.
+- Stop monitoring by pressing `Ctrl-C`. The loop exits automatically once all tracked panes echo the marker.
+
 ## Failure Recovery
 - If a pane crashes, reattach with `tmux attach -t goose` and rerun the persona bootstrap:
   ```bash

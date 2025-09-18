@@ -71,6 +71,15 @@ other Make targets exist purely for optional tooling.
 When Codex opens in each pane, run `codex --cd $(pwd)` (if the script did not
 launch it automatically) and paste the persona prompt from `from_to.md`.
 
+Optional shell helper for one-off runs:
+
+```bash
+cdx-specs() {
+  codex --model gpt-5-codex --full-auto --search "$@"
+}
+# usage inside a pane: cdx-specs "Make stuff read file etc"
+```
+
 ### When you need more
 ```
 make help             # list the targets below
