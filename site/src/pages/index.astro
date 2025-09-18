@@ -1,0 +1,22 @@
+---
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { Markdown } from 'astro/components';
+
+const pageDir = fileURLToPath(new URL('.', import.meta.url));
+const repoRoot = path.resolve(pageDir, '../../..');
+const readmePath = path.join(repoRoot, 'README.md');
+const readme = fs.readFileSync(readmePath, 'utf-8');
+---
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Talk to Me Goose Docs</title>
+  </head>
+  <body>
+    <main>
+      <Markdown content={readme} />
+    </main>
+  </body>
+</html>

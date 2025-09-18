@@ -1,0 +1,35 @@
+---
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { Markdown } from 'astro/components';
+
+const pageDir = fileURLToPath(new URL('.', import.meta.url));
+const repoRoot = path.resolve(pageDir, '../../../..');
+const personasDir = path.join(repoRoot, 'docs/personas');
+const personaFiles = fs
+  .readdirSync(personasDir)
+  .filter((name) => name.endsWith('.md'))
+  .sort();
+
+const personaDocs = personaFiles.map((filename) => ({
+  filename,
+  slug: filename.replace(/\.md$/, ''),
+  content: fs.readFileSync(path.join(personasDir, filename), 'utf-8')
+}));
+---
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Persona Specs · Talk to Me Goose</title>
+  </head>
+  <body>
+    <main>
+      {personaDocs.map((doc) => (
+        <section id={doc.slug}>
+          <Markdown content={doc.content} />
+        </section>
+      ))}
+    </main>
+  </body>
+</html>
