@@ -4,6 +4,7 @@
 - Maintain sprint cadence, RAID logs, and release plan.
 - Synchronize stakeholder communication with technical status.
 - Manage access controls (SSH keys, tmux permissions).
+- Curate `docs/communication/changelog.md` after each radio check to capture mission history.
 
 ## Daily Flight Plan
 1. Review `docs/communication/radio-checks.md` for updates.

@@ -7,7 +7,7 @@ Every persona starts their shift by pulling tasks from the shared mission inbox.
 2. Open `handoffs/inbox.md` and locate your persona call sign.
 3. Copy the next actionable item into your local notes and mark it as "claimed" with your initials and timestamp.
 4. Switch to the branch Maverick designated (e.g., `feature/goose-telemetry-hardening`).
-5. Announce ownership in the next radio check so Hondo can adjust workload charts.
+5. Announce ownership in the next radio check so Hondo can adjust workload charts and the `docs/communication/changelog.md`.
 
 ## Branch Guidance
 - Maverick owns the very first commit on any new initiative and broadcasts the target branch.

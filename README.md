@@ -2,6 +2,8 @@ You are Maverick, the master of the **Talk to Me Goose** squadron.
 
 ![Talk to Me Goose logo](goose.png)
 
+> **Don’t Love Top Gun?** No worries—underneath the call signs this is an agentic launch platform. Maverick is simply the master controller, other personas are workers, and communication flows through git branches, spec files, and radio-check logs. Swap the theme as you like; the coordination mechanics stay the same.
+
 ## Persona Flight Roster
 - **Maverick** — Mission lead, systems architect, final call on merges
 - **Hondo** — Program manager keeping schedules and risk logs aligned
@@ -12,7 +14,7 @@ You are Maverick, the master of the **Talk to Me Goose** squadron.
 - **Hangman** — Backend developer delivering APIs and data models
 
 ### Agentic Flight Ops
-This repo models an agentic Codex coding stack. Each persona is a Codex CLI instance speaking through structured `output` → `input` turns. Updates flow as a tree so the squad never loses situational awareness:
+This repo models an agentic Codex coding stack. Each persona is a Codex CLI instance speaking through structured `output` → `input` turns. Communication is enforced by branches, spec files, and the mission inbox so the squad never loses situational awareness:
 
 ```
 Maverick (mission lead)
@@ -25,9 +27,9 @@ Maverick (mission lead)
     └── Hangman (API)
 ```
 
-- Maverick broadcasts mission goals, collects intel, and delegates via tmux panes.
-- Every persona syncs the mission inbox (`handoffs/inbox.md`) at shift start to pick up assignments.
-- Each developer persona answers with `output` logs, requests help via `input` prompts, and hands artifacts back through git branches.
+- Maverick acts as master controller: broadcasts goals, collects intel, and delegates via tmux panes.
+- Every persona syncs the mission inbox (`handoffs/inbox.md`) at shift start to pull assignments, specs, and branch orders.
+- Each developer persona answers with `output` logs, requests help via `input` prompts, and hands artifacts back through git branches and spec markdown.
 - Any number of agents can mirror a persona (e.g., multiple Gooses) as long as they tag commits and panes with the persona name plus a numeric suffix.
 - Hondo tracks resource constraints and ensures GPT-Codex models have approvals to run from the shared VM.
 
@@ -77,6 +79,7 @@ tmux start script validated
 - Use a ChatGPT Plus (or higher) account with Codex access and a valid session token before running `make verify` (details in `docs/operations/codex-requirements.md`).
 - Keep an eye on Codex rate limits; log quota alerts in radio checks so the squad can throttle requests.
 - Test flows can be simulated via the shared ChatGPT conversation: https://chatgpt.com/share/68cbadca-7c64-8006-b614-9524f4df7447.
+- Baseline automated tests focus on code quality (lint, prompts, tmux dry-run). Advanced integration tests should be run live with Codex agents attached.
 
 ### Preflight Checklist
 1. Provision a VM (8 vCPU, 16 GB RAM recommended; minimum free disk 5 GB) and confirm `tmux -V` returns ≥ 3.2.
@@ -92,7 +95,7 @@ tmux start script validated
 ## Boilerplate Airframe (Optional)
 An experimental starter kit lives in `apps/` and `site/`. Review `docs/boilerplate/experimental.md` before enabling it. Maverick must log whether the crew will keep or strip it during the Ready Check. If adopted, Goose + Phoenix own the landing page/backend integration; otherwise archive the directories after filing an ADR.
 
-Developers pair on features by default: Goose with Iceman on shared libraries, Phoenix with Hangman on feature delivery. Expand with additional personas once Maverick updates the mission inbox and tmux script.
+**Quick Start Scenario**: Begin with Maverick (master) and a single developer (Goose). Maverick seeds the branch and fills the inbox, while Goose runs a tight loop: `git pull`, check inbox/specs, implement, `git push`. Advanced multi-persona missions follow the same pattern at larger scale.
 
 ## tmux Squadron Layout
 `scripts/start_tmux_codex.sh` creates a session named `goose`. Windows and panes:
@@ -106,7 +109,7 @@ The automated verification `tests/tmux/start.test.sh` runs this layout in dry-ru
 Detach with `Ctrl-b d`. Reattach via `tmux attach -t goose`.
 
 ## Documentation Site
-The `site/` directory houses an Astro project that ingests Markdown from `docs/` (including `docs/boilerplate/experimental.md`, `docs/operations/codex-requirements.md`, and all persona briefs). Build or preview via Make targets so the squad can browse the HUD.
+The `site/` directory houses an Astro project that ingests Markdown from `docs/` (including `docs/boilerplate/experimental.md`, `docs/operations/codex-requirements.md`, and all persona briefs). Build or preview via Make targets so the squad can browse the HUD and keep specifications current.
 
 ## Communication Discipline
 - Follow the radio-check format in `docs/communication/radio-checks.md` for async updates.

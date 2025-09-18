@@ -41,6 +41,8 @@ All personas share one VM and one repo clone. tmux keeps Codex agents isolated p
 - Pushes happen from Maverick or Goose after review.
 - Maintain access to simulation remote `git@github.com:taituo/talktomegoose_test.git`; tests will configure it automatically if reachable.
 - Inbox discipline: personas claim work in `handoffs/inbox.md`; Maverick controls the first commit on each new mission and directs the target branch.
+- Developer loop: `git pull`, review inbox/spec files, update code, run `make verify`, push commits.
+- Hondo (manager) maintains a CHANGELOG (e.g., `docs/communication/changelog.md`) summarizing each mission cycle.
 
 ## Failure Recovery
 - If a pane crashes, reattach with `tmux attach -t goose` and rerun the persona bootstrap:
