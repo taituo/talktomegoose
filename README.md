@@ -26,6 +26,7 @@ Maverick (mission lead)
 ```
 
 - Maverick broadcasts mission goals, collects intel, and delegates via tmux panes.
+- Every persona syncs the mission inbox (`handoffs/inbox.md`) at shift start to pick up assignments.
 - Each developer persona answers with `output` logs, requests help via `input` prompts, and hands artifacts back through git branches.
 - Any number of agents can mirror a persona (e.g., multiple Gooses) as long as they tag commits and panes with the persona name plus a numeric suffix.
 - Hondo tracks resource constraints and ensures GPT-Codex models have approvals to run from the shared VM.
@@ -75,8 +76,9 @@ tmux start script validated
 3. Run `make bootstrap` or manually install tmux, Node 20, pnpm, and Astro.
 4. Place shared SSH keys under `ops/ssh/` and configure `~/.ssh/config` if agents will push from the VM.
 5. Launch the tmux layout with `make tmux`. Each pane spawns `gpt-codex` via the persona env files.
-6. Use the radio-check protocol (`docs/communication/radio-checks.md`) to log status updates and branch assignments.
-7. Ensure the simulation remote `git@github.com:taituo/talktomegoose_test.git` is reachable; `tests/git/remote.test.sh` will auto-wire it as `talktomegoose_test` if missing.
+6. Sync the mission inbox (`handoffs/inbox.md`) to claim tasks and confirm branch orders from Maverick.
+7. Use the radio-check protocol (`docs/communication/radio-checks.md`) to log status updates and branch assignments.
+8. Ensure the simulation remote `git@github.com:taituo/talktomegoose_test.git` is reachable; `tests/git/remote.test.sh` will auto-wire it as `talktomegoose_test` if missing.
 
 ## Boilerplate Airframe
 The repo includes a starter full-stack pattern so developers can bolt new features on quickly.
@@ -123,6 +125,7 @@ Fly safe, keep the chatter clear, and always talk to your Goose.
 - **First contact**: Open a tmux pane, source `scripts/persona_env/Maverick.env`, and start Codex with `codex --persona Maverick --cwd /path/to/repo`.
 - **Idea intake**: New contributors present mission intent to Maverick; once approved, Maverick relays tasks down the flight tree.
 - **Branching**: Each developer operates on mission-specific branches (`feature/<persona>-<call-sign>`). Merge approval flows back through Maverick.
+- **Inbox discipline**: Claim work from `handoffs/inbox.md`; Maverick seeds the first commit on new missions, then instructs which branch each persona should use.
 - **Scaling personas**: To add Selenium or other specialized personas, duplicate an env file, update the tmux script with a new pane, and extend docs under `docs/personas/`.
 
 ## Demo Milestones
