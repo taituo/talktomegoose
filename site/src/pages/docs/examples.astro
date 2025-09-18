@@ -1,16 +1,19 @@
 ---
-import fs from 'node:fs';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
-import { Markdown } from 'astro/components';
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import { Markdown } from "astro/components";
 
-const pageDir = fileURLToPath(new URL('.', import.meta.url));
-const repoRoot = path.resolve(pageDir, '../../../..');
-const examplesDir = path.join(repoRoot, 'docs/examples');
-const files = fs.readdirSync(examplesDir).filter((name) => name.endsWith('.md')).sort();
+const pageDir = fileURLToPath(new URL(".", import.meta.url));
+const repoRoot = path.resolve(pageDir, "../../../..");
+const examplesDir = path.join(repoRoot, "docs/examples");
+const files = fs
+	.readdirSync(examplesDir)
+	.filter((name) => name.endsWith(".md"))
+	.sort();
 const docs = files.map((filename) => ({
-  filename,
-  content: fs.readFileSync(path.join(examplesDir, filename), 'utf-8')
+	filename,
+	content: fs.readFileSync(path.join(examplesDir, filename), "utf-8"),
 }));
 ---
 <html lang="en">

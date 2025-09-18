@@ -1,16 +1,20 @@
-import { defineConfig } from 'astro/config';
-import { fileURLToPath } from 'node:url';
-import path from 'node:path';
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import { defineConfig } from "astro/config";
 
-const repoRoot = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..', '..');
+const repoRoot = path.resolve(
+	fileURLToPath(new URL(".", import.meta.url)),
+	"..",
+	"..",
+);
 
 export default defineConfig({
-  site: 'https://taituo.github.io/talktomegoose',
-  vite: {
-    server: {
-      fs: {
-        allow: [repoRoot]
-      }
-    }
-  }
+	site: "https://taituo.github.io/talktomegoose",
+	vite: {
+		server: {
+			fs: {
+				allow: [repoRoot],
+			},
+		},
+	},
 });
