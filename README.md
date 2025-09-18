@@ -66,6 +66,7 @@ make demotime     # prep FastAPI + dashboard demo and print run commands
 make mission-clean # stop tmux/uvicorn/next demo processes
 make start-local-registry # create local bare repos for personas
 make local-demo-repo     # create single bare repo (LOCAL_NAME=foo make ...)
+make update-repo   # git pull + pnpm install shortcut
 make inbox        # print current handoffs/inbox.md tasks
 make mission-log  # tail recent mission log entries
 make mission-status # show git graph for active branches

@@ -1,6 +1,6 @@
 SHELL := /usr/bin/env bash
 
-.PHONY: help clone-template bootstrap tmux tmux-observe mission-control mission-all mission-story-check demotime mission-clean inbox mission-log mission-status mission-summary start-local-registry local-demo-repo docs-install docs-dev docs-build lint test-unit verify fetch-deps venv venv-clean
+.PHONY: help clone-template bootstrap tmux tmux-observe mission-control mission-all mission-story-check demotime mission-clean inbox mission-log mission-status mission-summary start-local-registry local-demo-repo update-repo docs-install docs-dev docs-build lint test-unit verify fetch-deps venv venv-clean
 
 help: ## Show available ground operations
 	@grep -E '^[a-zA-Z_-]+:.*?##' Makefile | sort | awk 'BEGIN {FS = ":.*?##"} {printf "\033[36m%-16s\033[0m %s\n", $$1, $$2}'
@@ -93,6 +93,10 @@ local-demo-repo: ## Create a single bare repo for ad-hoc testing (LOCAL_NAME def
 		git init --bare "$$repo" >/dev/null; \
 		echo "Created bare repo $$repo"; \
 	fi
+
+update-repo: ## Pull latest commits and install dependencies
+	git pull
+	pnpm install
 
 inbox: ## Show current mission inbox tasks (handoffs/inbox.md)
 	@if [ -f handoffs/inbox.md ]; then \
