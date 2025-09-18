@@ -5,6 +5,13 @@ SESSION_NAME="goose"
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 CODEX_DRY_RUN=${CODEX_DRY_RUN:-}
 
+CODEX_SUPPORTS_PERSONA=0
+if command -v codex >/dev/null 2>&1; then
+  if codex --help 2>/dev/null | grep -q -- '--persona'; then
+    CODEX_SUPPORTS_PERSONA=1
+  fi
+fi
+
 launch_codex() {
   local pane="$1"
   local persona="$2"
@@ -14,7 +21,11 @@ launch_codex() {
   if [[ -n "$CODEX_DRY_RUN" ]]; then
     cmd="source $env_file && cd $REPO_ROOT && echo 'Persona ${persona} dry run — awaiting Codex attach.'"
   else
-    cmd="source $env_file && cd $REPO_ROOT && if command -v codex >/dev/null 2>&1; then codex --persona $persona --cwd $REPO_ROOT; else echo 'Codex CLI missing; install before flight.'; exec bash; fi"
+    if [[ "$CODEX_SUPPORTS_PERSONA" -eq 1 ]]; then
+      cmd="source $env_file && cd $REPO_ROOT && if command -v codex >/dev/null 2>&1; then codex --persona $persona --cwd $REPO_ROOT; else echo 'Codex CLI missing; install before flight.'; exec bash; fi"
+    else
+      cmd="source $env_file && cd $REPO_ROOT && if command -v codex >/dev/null 2>&1; then echo 'Persona ${persona} pane ready. Launch Codex manually and paste the base prompt from from_to.md.'; codex --cd $REPO_ROOT; else echo 'Codex CLI missing; install before flight.'; exec bash; fi"
+    fi
   fi
 
   tmux send-keys -t "$pane" "$cmd" C-m

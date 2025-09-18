@@ -68,6 +68,9 @@ make inbox            # optional helper to print handoffs/inbox.md
 That flow is enough when the VM already has tmux, git, and Codex access. The
 other Make targets exist purely for optional tooling.
 
+When Codex opens in each pane, run `codex --cd $(pwd)` (if the script did not
+launch it automatically) and paste the persona prompt from `from_to.md`.
+
 ### When you need more
 ```
 make help             # list the targets below

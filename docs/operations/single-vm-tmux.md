@@ -25,7 +25,7 @@ All personas share one VM and one repo clone. tmux keeps Codex agents isolated p
 - Session name: `goose`
 - Windows:
   1. `command`: root shell, make targets, git graph
-  2. `flightline`: four panes for Goose, Iceman, Phoenix, Hangman (`codex --persona <name>`)
+  2. `flightline`: four panes for Goose, Iceman, Phoenix, Hangman (run `codex --cd /path/to/talktomegoose` in each pane)
   3. `qa`: Rooster pane running tests on loop
   4. `ops`: Hondo pane tailing logs
 - Key bindings: prefix `Ctrl-a`, `Ctrl-a r` reloads config, `Ctrl-a D` detaches others.
@@ -56,7 +56,8 @@ All personas share one VM and one repo clone. tmux keeps Codex agents isolated p
 - If a pane crashes, reattach with `tmux attach -t goose` and rerun the persona bootstrap:
   ```bash
   source scripts/persona_env/<persona>.env
-  codex --persona <persona> --cwd /workspace/talktomegoose
+  codex --cd /workspace/talktomegoose
+  # paste the persona base prompt from from_to.md once Codex opens
   ```
 - Keep backups of `logs/` and `docs/` in external storage nightly.
 

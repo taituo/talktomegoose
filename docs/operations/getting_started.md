@@ -33,7 +33,7 @@ tooling installed, just pull the latest changes and jump to section 2.
 
 ## 3. Launch Mission Control
 1. Start the tmux layout: `make mission-control` (alias: `make tmux`).
-2. Attach Codex sessions in each pane (`codex --persona <Name> --cwd ...`).
+2. Attach Codex sessions in each pane (`codex --cd /path/to/talktomegoose`). Paste the persona prompt from `from_to.md` after Codex opens.
 3. Observers join read-only with `tmux attach -t goose -r`.
 4. Monitor progress with helper targets as you go:
    - `make inbox` — print tasks from `handoffs/inbox.md`
