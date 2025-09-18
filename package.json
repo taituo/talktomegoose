@@ -4,7 +4,8 @@
   "type": "module",
   "scripts": {
     "lint": "pnpm exec biome check apps docs scripts",
-    "test": "node tests/e2e/telemetry.spec.mjs",
+    "test": "pnpm run test:tmux && node tests/e2e/telemetry.spec.mjs",
+    "test:tmux": "tests/tmux/start.test.sh",
     "docs:dev": "pnpm --dir site install --shamefully-hoist && pnpm --dir site run dev",
     "docs:build": "pnpm --dir site install --shamefully-hoist && pnpm --dir site run build"
   },
