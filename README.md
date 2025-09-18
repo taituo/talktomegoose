@@ -121,7 +121,7 @@ tmux start script validated
 9. Ensure the simulation remote `git@github.com:taituo/talktomegoose_test.git` is reachable; `tests/git/remote.test.sh` will auto-wire it as `talktomegoose_test` if missing.
 
 ## Boilerplate Airframe (Optional)
-Template scaffolds now live in `templates/` (see `docs/templates/fastapi.md` and `docs/templates/storyteller.md`). Maverick records during the Ready Check whether the crew will fork the FastAPI starter, the Storyteller kit, or rebuild from scratch. Goose + Hangman shepherd shared utilities and routers, Phoenix + Goose team up on narrative templates, and Rooster insists every template change ships with matching tests or review checklists; archive unused experiments after filing an ADR.
+Template scaffolds now live in `templates/` (see `docs/templates/fastapi.md`, `docs/templates/storyteller.md`, and `docs/templates/mission-dashboard.md`). Maverick records during the Ready Check whether the crew will fork the FastAPI starter, the Storyteller kit, the mission dashboard, or rebuild from scratch. Goose + Hangman shepherd shared utilities and routers, Phoenix pilots narrative or dashboard UIs, and Rooster insists every template change ships with matching tests or review checklists; archive unused experiments after filing an ADR.
 
 **Quick Start Scenario**: Begin with Maverick (master) and a single developer (Goose). Maverick seeds the branch and fills the inbox, while Goose runs a tight loop: `git pull`, check inbox/specs, implement, `git push`. Advanced multi-persona missions follow the same pattern at larger scale.
 

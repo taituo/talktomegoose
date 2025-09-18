@@ -30,6 +30,9 @@ extend collaboratively.
   template additions should land without matching verification.
 - Integrate the standard mission loop: `make test-unit` before coding and `make verify`
   before merge. Rooster will block changes that skip these steps.
+- Pair this backend with the Next.js mission dashboard (see
+  `docs/templates/mission-dashboard.md`) by exposing endpoints such as
+  `/api/persona-events`, `/api/git-activity`, and `/api/merge-queue`.
 
 The template intentionally avoids UI boilerplate so teams can plug in whichever
 front-end or automation stack they prefer.
