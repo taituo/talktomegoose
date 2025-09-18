@@ -60,6 +60,7 @@ Talk to Me Goose is a collaborative sandbox showing how multiple Codex agents ca
 make help          # list available ground operations
 make bootstrap     # install tmux + node + pnpm + astro prerequisites (Ubuntu/Debian)
 make mission-control # launch the multi-pane Codex tmux session (alias of make tmux)
+make mission-all   # run clone-template, pnpm install, optional venv, verify
 make docs-dev      # live reload Astro site sourced from /docs
 make docs-build    # produce static site output in site/dist
 make verify        # run lint + tmux launch test + telemetry probe
@@ -74,6 +75,7 @@ make clone-template # clone or update the talktomegoose_test repo for missions
 4. **Develop**: personas work from the single repo root (`talktomegoose/`), following Maverick’s branch orders in `handoffs/inbox.md`.
 5. **Validate**: run `make verify` (or `pnpm test` with `ENABLE_TELEMETRY_TEST=1` when telemetry is wired) before handing changes back to Maverick.
 6. Optional: `make clone-template` pulls the shared test repo (`taituo/talktomegoose_test`) so Maverick can monitor remote branches.
+7. Want everything in one go? `make mission-all` runs cloning, dependency install, the optional venv (skip via `SKIP_VENV=1`), and the verification suite.
 
 > FastAPI template note: it’s just an example payload for missions that want a
 > sample backend. If you don’t need it, skip `make venv` and ignore the template

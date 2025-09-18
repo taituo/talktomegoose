@@ -16,7 +16,7 @@ All personas share one VM and one repo clone. tmux keeps Codex agents isolated p
    - Node.js 20.x + pnpm
    - Python3 (for auxiliary scripts)
 3. Copy `.env.example` to `.env` and set secrets if needed.
-4. Launch `make mission-control` (alias: `make tmux`) to deploy the `goose` session.
+4. Launch `make mission-control` (alias: `make tmux`) to deploy the `goose` session (or run `make mission-all` to perform cloning, dependency install, venv, and checks in one go).
 5. Before personas start coding, run `make test-unit` to confirm the FastAPI template imports successfully; Rooster logs the result.
 6. Cycle `make verify` (lint + pnpm test) prior to merges; set `ENABLE_TELEMETRY_TEST=1` when the telemetry endpoint exists.
 

@@ -40,7 +40,7 @@ Mission Codename:
 VM Specs Confirmed (tmux ≥ 3.2, ≥ 5 GB free disk): yes/no
 Codex Access (ChatGPT Plus, session token, quota): yes/no — details:
 Simulation Remote (talktomegoose_test) reachable: yes/no
-Template Usage (templates/, site/): fork/skip — rationale:
+Template / Boilerplate Usage (templates/, site/): fork/skip — rationale:
 Personas joining (count + names):
 Optional personas requested (e.g., Sundown):
 Target Branch for first wave:

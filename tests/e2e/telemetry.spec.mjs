@@ -10,7 +10,7 @@ const payload = {
   status: 'GREEN'
 };
 
-function signPayload(data: unknown) {
+function signPayload(data) {
   const signer = crypto.createSign('SHA256');
   signer.update(JSON.stringify(data));
   signer.end();
