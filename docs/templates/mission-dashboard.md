@@ -12,9 +12,11 @@ the FastAPI template streams data.
 
 ## Quickstart
 ```bash
+make demotime            # installs deps and prints run commands
+# or manual steps:
 cd templates/mission-dashboard
 pnpm install
-pnpm dev
+NEXT_PUBLIC_API_BASE_URL=http://127.0.0.1:8000 pnpm dev
 ```
 Visit http://localhost:3000 to see the split-panel layout. The sample arrays in
 `app/page.tsx` mimic tmux panes; swap them for `fetch` calls when your API is
@@ -32,3 +34,5 @@ ready.
 - Store serialized events (JSONL) so the dashboard can replay history.
 - Deploy the dashboard alongside docs or host it via `next export` if you need a
   static build.
+- Secure the API with `TALKTO_API_KEY`; set `NEXT_PUBLIC_API_KEY` so the
+  dashboard attaches the correct header (`x-mission-key`).

@@ -1,68 +1,80 @@
-const personaEvents = [
+'use client';
+
+import { useEffect, useState } from 'react';
+
+type PersonaEvent = {
+  id: string;
+  persona: string;
+  timestamp: string;
+  message: string;
+};
+
+type GitActivity = {
+  id: string;
+  branch: string;
+  commit: string;
+  persona: string;
+  summary: string;
+};
+
+type MergeAttempt = {
+  id: string;
+  branch: string;
+  status: string;
+  reviewers: string[];
+};
+
+type TelemetryMetric = {
+  id: string;
+  metric: string;
+  value: string;
+  trend: string;
+};
+
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:8000';
+const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
+
+const SAMPLE_PERSONA_EVENTS: PersonaEvent[] = [
   {
     id: 'evt-001',
     persona: 'Maverick',
     timestamp: '2025-09-18T11:02Z',
-    message: 'Story mission cleared for launch. Phoenix owns chapter-01 on feature/phoenix-ch01.'
+    message:
+      'Story mission cleared for launch. Phoenix owns chapter-01 on feature/phoenix-ch01.'
   },
   {
     id: 'evt-002',
     persona: 'Phoenix',
     timestamp: '2025-09-18T11:12Z',
     message: 'Drafted cold open hook; handing to Goose for continuity review.'
-  },
-  {
-    id: 'evt-003',
-    persona: 'Goose',
-    timestamp: '2025-09-18T11:20Z',
-    message: 'Timeline synced with outline. Flagged minor character alias for chapter-02 owner.'
   }
 ];
 
-const gitActivity = [
+const SAMPLE_GIT_ACTIVITY: GitActivity[] = [
   {
     id: 'git-001',
     branch: 'feature/phoenix-ch01',
     commit: 'c0ffee1',
     persona: 'Phoenix',
     summary: 'Add inciting incident scene and update outline'
-  },
-  {
-    id: 'git-002',
-    branch: 'feature/goose-ch02',
-    commit: 'baddad2',
-    persona: 'Goose',
-    summary: 'Continuity polish + glossary entry'
   }
 ];
 
-const mergeQueue = [
+const SAMPLE_MERGE_QUEUE: MergeAttempt[] = [
   {
     id: 'pr-21',
     branch: 'feature/phoenix-ch01',
     status: 'awaiting review',
     reviewers: ['Goose', 'Rooster']
-  },
-  {
-    id: 'pr-22',
-    branch: 'feature/maverick-epilogue',
-    status: 'draft',
-    reviewers: ['Phoenix']
   }
 ];
 
-const telemetry = [
+const SAMPLE_TELEMETRY: TelemetryMetric[] = [
   {
     id: 'tele-001',
     metric: 'Words Drafted',
     value: '2,340',
     trend: '+320 since last sync'
-  },
-  {
-    id: 'tele-002',
-    metric: 'Chapters Ready',
-    value: '1 / 4',
-    trend: 'Phoenix ready for merge'
   }
 ];
 
@@ -79,13 +91,76 @@ function Panel({ title, children }: { title: string; children: React.ReactNode }
 }
 
 export default function MissionDashboard() {
+  const [personaEvents, setPersonaEvents] = useState<PersonaEvent[]>(SAMPLE_PERSONA_EVENTS);
+  const [gitActivity, setGitActivity] = useState<GitActivity[]>(SAMPLE_GIT_ACTIVITY);
+  const [mergeQueue, setMergeQueue] = useState<MergeAttempt[]>(SAMPLE_MERGE_QUEUE);
+  const [telemetry, setTelemetry] = useState<TelemetryMetric[]>(SAMPLE_TELEMETRY);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadData() {
+      try {
+        const headers: Record<string, string> = { 'content-type': 'application/json' };
+        if (API_KEY) {
+          headers['x-mission-key'] = API_KEY;
+        }
+
+        const [eventsRes, gitRes, mergeRes, telemetryRes] = await Promise.all([
+          fetch(`${API_BASE_URL}/dashboard/persona-events`, { headers }),
+          fetch(`${API_BASE_URL}/dashboard/git-activity`, { headers }),
+          fetch(`${API_BASE_URL}/dashboard/merge-attempts`, { headers }),
+          fetch(`${API_BASE_URL}/dashboard/telemetry`, { headers })
+        ]);
+
+        if (cancelled) return;
+
+        if ([eventsRes, gitRes, mergeRes, telemetryRes].some((res) => !res.ok)) {
+          throw new Error('One or more dashboard endpoints returned non-200 status');
+        }
+
+        const [events, git, merges, tele] = await Promise.all([
+          eventsRes.json(),
+          gitRes.json(),
+          mergeRes.json(),
+          telemetryRes.json()
+        ]);
+
+        setPersonaEvents(events);
+        setGitActivity(git);
+        setMergeQueue(merges);
+        setTelemetry(tele);
+        setError(null);
+      } catch (err) {
+        if (!cancelled) {
+          console.error('Failed to load dashboard data', err);
+          setError('Dashboard is showing sample data (API unreachable).');
+        }
+      }
+    }
+
+    loadData();
+    const interval = setInterval(loadData, 10_000);
+
+    return () => {
+      cancelled = true;
+      clearInterval(interval);
+    };
+  }, []);
+
   return (
     <main>
       <h1>Talk to Me Goose — Mission Dashboard</h1>
       <p style={{ color: 'var(--muted)', marginBottom: '1.5rem' }}>
-        Split-panel view mirroring tmux panes. Replace the sample arrays with
-        real data from the FastAPI template when ready.
+        Split-panel view mirroring tmux panes. Configure `NEXT_PUBLIC_API_BASE_URL` and
+        `NEXT_PUBLIC_API_KEY` to pull live data from the FastAPI template.
       </p>
+      {error && (
+        <p style={{ color: '#f97316', marginBottom: '1rem' }}>
+          {error} Refresh once the FastAPI mission API is online.
+        </p>
+      )}
 
       <div className="panel-grid" style={{ marginBottom: '1rem' }}>
         <Panel title="Persona Comms">
@@ -139,8 +214,8 @@ export default function MissionDashboard() {
       </div>
 
       <p className="footer">
-        Hook the panels to your FastAPI template (e.g., `/api/events`, `/api/commits`) to stream live
-        mission data. ASCII-inspired borders keep the tmux vibe intact.
+        Hook the panels to FastAPI endpoints (`/dashboard/*`) or your own data sources. ASCII borders
+        keep the tmux vibe intact while the squad watches commits and comms roll in.
       </p>
     </main>
   );

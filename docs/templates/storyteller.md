@@ -25,6 +25,8 @@ focusing on text collaboration instead of code.
 4. Use pull requests to merge chapters, with Goose + Rooster reviewing.
 5. Publish compiled chapters (e.g., `notes/story-dashboard.md`) or export to
    docs as needed.
+6. Run `make mission-story-check` to ensure the outline references every
+   chapter and required sections exist before Maverick approves merges.
 
 ## Tips
 - Keep chapters short to reduce merge conflicts.

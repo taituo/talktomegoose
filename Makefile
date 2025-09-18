@@ -1,6 +1,6 @@
 SHELL := /usr/bin/env bash
 
-.PHONY: help clone-template bootstrap tmux tmux-observe mission-control mission-all docs-install docs-dev docs-build lint test-unit verify fetch-deps venv venv-clean
+.PHONY: help clone-template bootstrap tmux tmux-observe mission-control mission-all mission-story-check demotime docs-install docs-dev docs-build lint test-unit verify fetch-deps venv venv-clean
 
 help: ## Show available ground operations
 	@grep -E '^[a-zA-Z_-]+:.*?##' Makefile | sort | awk 'BEGIN {FS = ":.*?##"} {printf "\033[36m%-16s\033[0m %s\n", $$1, $$2}'
@@ -32,6 +32,20 @@ mission-all: ## Full first-flight prep (clone template, deps, optional venv, che
 	fi
 	$(MAKE) test-unit
 	$(MAKE) verify
+
+mission-story-check: ## Validate storyteller outline vs chapter templates
+	node scripts/story/check_chapters.mjs
+
+demotime: ## Prepare demo deps (FastAPI + dashboard) and print launch tips
+	$(MAKE) mission-all SKIP_VENV=$(SKIP_VENV)
+	pnpm --dir templates/mission-dashboard install
+	@echo "---"
+	@echo "Mission demo ready." \
+	 && echo "1. API key (optional): export TALKTO_API_KEY=demo-mission" \
+	 && echo "2. Start FastAPI: source .venv/bin/activate && uvicorn templates.fastapi.app.main:app --reload" \
+	 && echo "3. Start dashboard: cd templates/mission-dashboard && NEXT_PUBLIC_API_BASE_URL=http://127.0.0.1:8000 NEXT_PUBLIC_API_KEY=demo-mission pnpm dev" \
+	 && echo "4. Open http://localhost:3000 to view panels." \
+	 && echo "Use SKIP_VENV=1 make demotime to skip Python venv creation."
 
 tmux-observe: ## Attach to running tmux session in read-only mode
 	tmux attach -t goose -r || { echo "tmux session 'goose' not running. Start it with make tmux."; exit 1; }

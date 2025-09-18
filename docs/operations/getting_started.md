@@ -13,6 +13,7 @@ tooling installed, just pull the latest changes and jump to section 2.
 2. Run `make bootstrap` **once per machine** to install tmux, Node 20, pnpm, and Astro.
 3. Run `make venv` **only if** you plan to use the optional FastAPI template; it creates or refreshes `.venv/` directly.
 4. Run `make clone-template` to clone or update the shared `talktomegoose_test/` playground repository (or let `make mission-all` handle the full sequence).
+5. Need the full demo stack (FastAPI + dashboard)? Use `make demotime` to install all dependencies and display launch commands.
 
 ## 2. Launch Mission Control
 1. Start the tmux layout: `make mission-control` (alias: `make tmux`).
@@ -29,7 +30,7 @@ tooling installed, just pull the latest changes and jump to section 2.
 2. Personas implement tasks from the shared repo root (`talktomegoose/`).
 3. `make verify` — lint + pnpm tests (set `ENABLE_TELEMETRY_TEST=1` when the telemetry endpoint exists).
 4. Maverick reviews branches and merges after Rooster signs off.
-5. `make clone-template` as needed (or run `make mission-all` to rerun the entire prep cycle) so Maverick can monitor remote branches on `talktomegoose_test`.
+5. `make clone-template` as needed (or run `make mission-all` / `make demotime` to rerun the prep cycle) so Maverick can monitor remote branches on `talktomegoose_test`.
 
 ## 5. Wrap Up
 - Update radio checks and ADRs.
