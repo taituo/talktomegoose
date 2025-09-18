@@ -41,10 +41,10 @@ Talk to Me Goose is a collaborative sandbox showing how multiple Codex agents ca
 4. **License-free payload**: ship ideas and assets under CC0 so the squadron can reuse them freely.
 
 ### Codex Stack Signal
-- Primary model: `gpt-codex` (or the latest Codex-compatible release on your platform).
+- Primary model: `gpt-codex` (or the latest Codex-compatible release on your platform). See `docs/operations/codex-requirements.md` for account prerequisites and quota warnings.
 - Interface: Codex CLI inside tmux panes bootstrapped by `scripts/start_tmux_codex.sh`.
 - Source control: Git with per-persona author identities and mission-branch workflows.
-- Coordination: Structured Markdown logs, ADRs, and the Astro doc site.
+- Coordination: Structured Markdown logs, ADRs, the mission inbox, and the Astro doc site.
 
 ## Quickstart
 ```bash
@@ -66,28 +66,33 @@ Remote 'talktomegoose_test' already configured as git@github.com:taituo/talktome
 <ref output>
 Remote communication validated for git@github.com:taituo/talktomegoose_test.git
 
+$ tests/prompts/maverick_ready.test.sh
+Maverick ready check template verified
+
 $ CODEX_DRY_RUN=1 tests/tmux/start.test.sh
 tmux start script validated
 ```
 
+### Codex Testing Requirements
+- Use a ChatGPT Plus (or higher) account with Codex access and a valid session token before running `make verify` (details in `docs/operations/codex-requirements.md`).
+- Keep an eye on Codex rate limits; log quota alerts in radio checks so the squad can throttle requests.
+- Test flows can be simulated via the shared ChatGPT conversation: https://chatgpt.com/share/68cbadca-7c64-8006-b614-9524f4df7447.
+
 ### Preflight Checklist
 1. Provision a VM (8 vCPU, 16 GB RAM recommended; minimum free disk 5 GB) and confirm `tmux -V` returns ≥ 3.2.
 2. Clone `git@github.com:taituo/talktomegoose.git` via SSH and ensure Maverick holds deploy-key access.
-3. Run `make bootstrap` or manually install tmux, Node 20, pnpm, and Astro.
-4. Place shared SSH keys under `ops/ssh/` and configure `~/.ssh/config` if agents will push from the VM.
-5. Launch the tmux layout with `make tmux`. Each pane spawns `gpt-codex` via the persona env files.
-6. Sync the mission inbox (`handoffs/inbox.md`) to claim tasks and confirm branch orders from Maverick.
-7. Use the radio-check protocol (`docs/communication/radio-checks.md`) to log status updates and branch assignments.
-8. Ensure the simulation remote `git@github.com:taituo/talktomegoose_test.git` is reachable; `tests/git/remote.test.sh` will auto-wire it as `talktomegoose_test` if missing.
+3. Satisfy Codex account requirements in `docs/operations/codex-requirements.md` (ChatGPT Plus, valid session token, quota awareness).
+4. Run `make bootstrap` or manually install tmux, Node 20, pnpm, and Astro.
+5. Place shared SSH keys under `ops/ssh/` and configure `~/.ssh/config` if agents will push from the VM.
+6. Launch the tmux layout with `make tmux`. Each pane spawns `gpt-codex` via the persona env files.
+7. Sync the mission inbox (`handoffs/inbox.md`) to claim tasks and confirm branch orders from Maverick.
+8. Use the radio-check protocol (`docs/communication/radio-checks.md`) to log status updates and branch assignments.
+9. Ensure the simulation remote `git@github.com:taituo/talktomegoose_test.git` is reachable; `tests/git/remote.test.sh` will auto-wire it as `talktomegoose_test` if missing.
 
-## Boilerplate Airframe
-The repo includes a starter full-stack pattern so developers can bolt new features on quickly.
-- `apps/landing-page/` — static landing page scaffold with menu placeholders.
-- `apps/backend/` — Express.js API shell with health checks and sample secure SSH token handshake.
-- `docs/examples/backend-use-cases.md` — outlines three backend scenarios (feature flags, telemetry, mission data).
-- `docs/personas/` — persona briefs describing goals, tooling, and commit voice.
+## Boilerplate Airframe (Optional)
+An experimental starter kit lives in `apps/` and `site/`. Review `docs/boilerplate/experimental.md` before enabling it. Maverick must log whether the crew will keep or strip it during the Ready Check. If adopted, Goose + Phoenix own the landing page/backend integration; otherwise archive the directories after filing an ADR.
 
-Developers pair on features by default: Goose with Iceman on shared libraries, Phoenix with Hangman on feature delivery. If more bandwidth is needed, spawn Gosling or IceWing variants; the tmux launcher will add panes when you extend it with new persona env files.
+Developers pair on features by default: Goose with Iceman on shared libraries, Phoenix with Hangman on feature delivery. Expand with additional personas once Maverick updates the mission inbox and tmux script.
 
 ## tmux Squadron Layout
 `scripts/start_tmux_codex.sh` creates a session named `goose`. Windows and panes:
@@ -101,7 +106,7 @@ The automated verification `tests/tmux/start.test.sh` runs this layout in dry-ru
 Detach with `Ctrl-b d`. Reattach via `tmux attach -t goose`.
 
 ## Documentation Site
-The `site/` directory houses an Astro project that ingests Markdown from `docs/`. Build or preview via Make targets. The generated static site stitches persona specs, operations guides, and communication templates into a single navigable HUD.
+The `site/` directory houses an Astro project that ingests Markdown from `docs/` (including `docs/boilerplate/experimental.md`, `docs/operations/codex-requirements.md`, and all persona briefs). Build or preview via Make targets so the squad can browse the HUD.
 
 ## Communication Discipline
 - Follow the radio-check format in `docs/communication/radio-checks.md` for async updates.
@@ -126,6 +131,7 @@ Fly safe, keep the chatter clear, and always talk to your Goose.
 - **Idea intake**: New contributors present mission intent to Maverick; once approved, Maverick relays tasks down the flight tree.
 - **Branching**: Each developer operates on mission-specific branches (`feature/<persona>-<call-sign>`). Merge approval flows back through Maverick.
 - **Inbox discipline**: Claim work from `handoffs/inbox.md`; Maverick seeds the first commit on new missions, then instructs which branch each persona should use.
+- **Ready Check**: Complete the template inside `from_maverick_to_codex.md` (covering Codex access, boilerplate usage, branch targets) before letting personas unmute.
 - **Scaling personas**: To add Selenium or other specialized personas, duplicate an env file, update the tmux script with a new pane, and extend docs under `docs/personas/`.
 
 ## Demo Milestones

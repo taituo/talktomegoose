@@ -7,6 +7,7 @@ All personas share one VM and one repo clone. tmux keeps Codex agents isolated p
 - Ubuntu 22.04 LTS or later
 - 8 vCPU, 16 GB RAM, 40 GB disk
 - SSH access through shared deploy key stored in `/home/<user>/.ssh/id_ed25519_goose`
+- ChatGPT Plus (or higher) account with Codex access; see `docs/operations/codex-requirements.md`
 
 ## Bootstrap Steps
 1. Clone repo using SSH: `git clone git@github.com:taituo/talktomegoose.git`.
@@ -32,6 +33,7 @@ All personas share one VM and one repo clone. tmux keeps Codex agents isolated p
 - `handoffs/` — per-shift summaries
 - `handoffs/inbox.md` — queue of persona tasks seeded by Maverick
 - Git remote `talktomegoose_test` — external playground repo used to validate communication tests
+- `docs/boilerplate/experimental.md` — optional starter kit status
 
 ## Git Discipline
 - Each persona sets `GIT_AUTHOR_NAME` and `GIT_AUTHOR_EMAIL` using `scripts/persona_env/<persona>.env`.
