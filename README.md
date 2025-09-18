@@ -57,35 +57,39 @@ Talk to Me Goose is a collaborative sandbox showing how multiple Codex agents ca
 - Codebase agnostic: the squad can fly against any repository; optional templates (`templates/`) and monitors (`demotime`) stay opt-in.
 
 ## Quickstart
-```bash
-make help             # list available ground operations
-make bootstrap        # install tmux + node + pnpm + astro prerequisites (Ubuntu/Debian)
-make mission-package  # scaffold missions/<slug>/{task,brief}.md (MISSION=... required)
-make mission-control  # launch the multi-pane Codex tmux session (alias of make tmux)
-make mission-all      # full prep (installs deps, runs checks) – optional & heavier
-make mission-story-check # validate storyteller outline vs chapters
-make demotime         # (optional) prep FastAPI + dashboard demo and print run commands
-make demotime-start   # (optional) launch FastAPI + dashboard in background (demotime-stop / demotime-status)
-make mission-clean    # stop tmux/uvicorn/next demo processes
-make start-local-registry # create local bare repos for personas
-make local-demo-repo       # create single bare repo (LOCAL_NAME=foo make ...)
-make update-repo      # git pull + pnpm install shortcut
-make inbox            # print current handoffs/inbox.md tasks
-make mission-log      # tail recent mission log entries
-make mission-status   # show git graph for active branches
-make mission-summary  # curl FastAPI dashboard summary (if running)
-make docs-dev         # live reload Astro site sourced from /docs
-make docs-build       # produce static site output in site/dist
-make verify           # run lint + tmux launch test + telemetry probe
-make venv             # build/update FastAPI virtualenv (.venv/)
-make clone-template   # clone or update the talktomegoose_test repo for missions
+
+### Launch the mission (no extra installs)
+```
+make tmux             # spin up the multi-pane Codex session
+# Maverick pane: open from_to.md and run the Ready Check prompt
+make inbox            # optional helper to print handoffs/inbox.md
 ```
 
-### Minimal Dependencies
-- Git + tmux (installed via `make bootstrap`) and an OpenAI Codex-capable account are the only hard requirements.
-- Agents may install additional tooling inside their working folders; add generated artefacts or caches to `.gitignore` to keep the repo clean.
-- The FastAPI API and mission dashboard are **optional** monitors. Skip them unless you need runtime telemetry.
-- See `dependencies.md` for the full breakdown of required vs optional tooling.
+That flow is enough when the VM already has tmux, git, and Codex access. The
+other Make targets exist purely for optional tooling.
+
+### When you need more
+```
+make help             # list the targets below
+make bootstrap        # install tmux + Node + pnpm + Astro (only if missing)
+make mission-package  # scaffold missions/<slug>/{task,brief}.md (MISSION=... required)
+make mission-all      # heavier prep: clone demo repo, install deps, run checks
+make update-repo      # git pull + pnpm install shortcut
+make mission-story-check # validate storyteller outline vs chapter templates
+make demotime         # prep FastAPI + dashboard demo (skip if tmux-only)
+make mission-clean    # stop tmux/uvicorn/next demo processes
+make docs-dev         # live reload Astro docs site
+make docs-build       # compile site/dist
+make lint             # run Biome lint/format checks
+make verify           # lint + pnpm test end-to-end probe
+make mission-status   # compact git graph (last 12 commits)
+make mission-log      # tail the recent mission log
+make mission-summary  # fetch FastAPI dashboard summary (if running)
+```
+
+Node.js, pnpm, Astro, the Python virtualenv, and the demo dashboard are all
+optional; ignore them unless your mission explicitly calls for the API/UI
+showcase. See `dependencies.md` for the full breakdown of optional tooling.
 
 ### Mission Flow (Chain of Command)
 1. **Package the mission**: `make mission-package MISSION="..."` creates `missions/<slug>/task.md` and `brief.md`. Fill in objectives, specs, and constraints.

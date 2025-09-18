@@ -10,12 +10,20 @@ tooling installed, just pull the latest changes and jump to section 2.
 
 1. Clone or update the repo: `git clone git@github.com:taituo/talktomegoose.git`
    (or `git pull` inside the existing checkout).
-2. Run `make bootstrap` **once per machine** to install tmux, Node 20, pnpm, and Astro.
-3. Confirm you have an OpenAI Codex-capable account and the Codex CLI configured on the VM.
-4. Run `make venv` **only if** you plan to use the optional FastAPI template; it creates or refreshes `.venv/` directly.
-5. Run `make clone-template` to clone or update the shared `talktomegoose_test/` playground repository (or let `make mission-all` handle the full sequence).
-6. Need the monitoring stack (FastAPI + dashboard)? Use `make demotime` to install all dependencies and display launch commands. Skip this if tmux + git are sufficient.
-7. Want the heavier “everything” workflow (deps + tests)? Run `make mission-all` — useful for demos, optional for day-to-day coding.
+2. Confirm you have an OpenAI Codex-capable account and the Codex CLI configured on the VM.
+3. If tmux (and, optionally, Node 20 + pnpm + Astro) are missing, run
+   `make bootstrap` **once per machine**. Skip it when those packages already
+   exist—you can launch missions without installing the demo stack.
+4. Run `make venv` **only if** you plan to use the optional FastAPI template;
+   it creates or refreshes `.venv/` directly.
+5. Run `make clone-template` to clone or update the shared
+   `talktomegoose_test/` playground repository when you need that remote (or let
+   `make mission-all` handle the full sequence).
+6. Need the monitoring stack (FastAPI + dashboard)? Use `make demotime` to
+   install its dependencies and display launch commands. Skip this if tmux +
+   git are sufficient.
+7. Want the heavier “everything” workflow (deps + tests)? Run `make mission-all`
+   — useful for demos, optional for day-to-day coding.
 
 ## 2. Build the Mission Package
 1. Create the scaffolding: `make mission-package MISSION="Flight Check" SPEC=https://…`.
