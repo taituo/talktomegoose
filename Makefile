@@ -1,6 +1,6 @@
 SHELL := /usr/bin/env bash
 
-.PHONY: help clone-template bootstrap tmux tmux-observe docs-install docs-dev docs-build lint test-unit verify fetch-deps venv venv-clean
+.PHONY: help clone-template bootstrap tmux tmux-observe mission-control docs-install docs-dev docs-build lint test-unit verify fetch-deps venv venv-clean
 
 help: ## Show available ground operations
 	@grep -E '^[a-zA-Z_-]+:.*?##' Makefile | sort | awk 'BEGIN {FS = ":.*?##"} {printf "\033[36m%-16s\033[0m %s\n", $$1, $$2}'
@@ -17,6 +17,9 @@ bootstrap: ## Install tmux, Node.js, pnpm, and Astro globally
 
 tmux: ## Launch multi-pane Codex tmux session
 	scripts/start_tmux_codex.sh
+
+mission-control: ## Alias for launching the tmux mission control layout
+	$(MAKE) tmux
 
 tmux-observe: ## Attach to running tmux session in read-only mode
 	tmux attach -t goose -r || { echo "tmux session 'goose' not running. Start it with make tmux."; exit 1; }

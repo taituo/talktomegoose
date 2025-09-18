@@ -2,7 +2,7 @@
 
 ## Mission
 - Provision the VM, credentials, and approvals that let Codex personas operate safely.
-- Launch the tmux cockpit (`make tmux`) and attach read-only observers as needed.
+- Launch the tmux cockpit (`make mission-control`, alias `make tmux`) and attach read-only observers as needed.
 - Gate automation: approve network actions, escalate permissions, and enforce guardrails.
 
 ## Daily Flight Plan

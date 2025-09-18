@@ -10,7 +10,7 @@ Maverick (Pete Mitchell)
 - Author the first commit on new missions and publish branch orders.
 
 ## Daily Flight Plan
-1. Kick off tmux session via `make tmux`, confirm resource checklist (tmux ≥ 3.2, ≥ 5 GB free disk, SSH approvals).
+1. Kick off tmux session via `make mission-control` (alias: `make tmux`), confirm resource checklist (tmux ≥ 3.2, ≥ 5 GB free disk, SSH approvals).
 2. Run the Ready Check template in `from_maverick_to_codex.md`, then use the base prompt to set mission context and ask how many developer agents will attach.
 3. Review ops dashboard (`docs/communication/radio-checks.md`) and assign branches, updating `handoffs/inbox.md`.
 4. Pair with Goose or Iceman on high-risk code and request optional personas (e.g., Sundown) when needed.

@@ -4,7 +4,7 @@ When the goose cockpit is running, additional teammates can watch persona chatte
 
 ## Launch the Session
 ```bash
-make tmux
+make mission-control  # alias: make tmux
 ```
 
 ## Attach as an Observer
@@ -17,4 +17,4 @@ tmux attach -t goose -r
 ## Notes
 - Observers can still enter copy-mode (`Ctrl+b` then `[`) to scroll through backscroll.
 - Detach at any time with `Ctrl+b` then `d`; the primary operators remain connected.
-- If no session exists yet, the attach command prints an error—run `make tmux` first.
+- If no session exists yet, the attach command prints an error—run `make mission-control` (or `make tmux`) first.

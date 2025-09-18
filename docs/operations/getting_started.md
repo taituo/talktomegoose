@@ -11,11 +11,11 @@ tooling installed, just pull the latest changes and jump to section 2.
 1. Clone or update the repo: `git clone git@github.com:taituo/talktomegoose.git`
    (or `git pull` inside the existing checkout).
 2. Run `make bootstrap` **once per machine** to install tmux, Node 20, pnpm, and Astro.
-3. Run `make venv` if you need the FastAPI template dependencies; it creates or refreshes `.venv/` directly.
+3. Run `make venv` **only if** you plan to use the optional FastAPI template; it creates or refreshes `.venv/` directly.
 4. Run `make clone-template` to clone or update the shared `talktomegoose_test/` playground repository.
 
 ## 2. Launch Mission Control
-1. Start the tmux layout: `make tmux`.
+1. Start the tmux layout: `make mission-control` (alias: `make tmux`).
 2. Attach Codex sessions in each pane (`codex --persona <Name> --cwd ...`).
 3. Observers join read-only with `tmux attach -t goose -r`.
 

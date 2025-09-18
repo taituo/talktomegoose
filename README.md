@@ -59,7 +59,7 @@ Talk to Me Goose is a collaborative sandbox showing how multiple Codex agents ca
 ```bash
 make help          # list available ground operations
 make bootstrap     # install tmux + node + pnpm + astro prerequisites (Ubuntu/Debian)
-make tmux          # launch the multi-pane codex session configured for all personas
+make mission-control # launch the multi-pane Codex tmux session (alias of make tmux)
 make docs-dev      # live reload Astro site sourced from /docs
 make docs-build    # produce static site output in site/dist
 make verify        # run lint + tmux launch test + telemetry probe
@@ -69,11 +69,15 @@ make clone-template # clone or update the talktomegoose_test repo for missions
 
 ### Mission Run Loop
 1. **Bootstrap (once per VM)**: `make bootstrap` so every pane has tmux, Node, pnpm, and Astro.
-2. **Launch Cockpit**: `make tmux` to create the shared `goose` session, then attach personas with the Codex CLI.
+2. **Launch Cockpit**: `make mission-control` (alias: `make tmux`) to create the shared `goose` session, then attach personas with the Codex CLI.
 3. **Baseline Check**: `make test-unit` before coding to confirm the FastAPI template imports cleanly.
 4. **Develop**: personas work from the single repo root (`talktomegoose/`), following Maverick’s branch orders in `handoffs/inbox.md`.
 5. **Validate**: run `make verify` (or `pnpm test` with `ENABLE_TELEMETRY_TEST=1` when telemetry is wired) before handing changes back to Maverick.
 6. Optional: `make clone-template` pulls the shared test repo (`taituo/talktomegoose_test`) so Maverick can monitor remote branches.
+
+> FastAPI template note: it’s just an example payload for missions that want a
+> sample backend. If you don’t need it, skip `make venv` and ignore the template
+> directory; tmux + Git coordination works without it.
 
 All personas share this working tree—no extra `/src/mission/...` directories are required. tmux panes provide isolation while keeping Git state in sync.
 
