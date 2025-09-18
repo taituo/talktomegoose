@@ -68,6 +68,14 @@ make inbox            # optional helper to print handoffs/inbox.md
 That flow is enough when the VM already has tmux, git, and Codex access. The
 other Make targets exist purely for optional tooling.
 
+`make tmux` now provisions dedicated Git workspaces under `personas/<Persona>/`
+so every pane can pull, branch, and commit independently. Rerun
+`scripts/setup_persona_workspaces.sh` if you need to refresh the clones or add
+new personas; each workspace tracks the repo’s default branch (usually
+`master`). Inside a persona workspace you can `git pull` to grab Maverick’s
+latest commits, then create `feature/<persona>-<slug>` branches without
+touching other panes.
+
 When Codex opens in each pane, run `codex --cd $(pwd)` (if the script did not
 launch it automatically) and paste the persona prompt from `from_to.md`.
 

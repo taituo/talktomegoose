@@ -8,3 +8,4 @@ logs/tests/*
 pnpm-lock.yaml
 talktomegoose_test/
 local_registry/
+personas/
