@@ -24,6 +24,7 @@ tooling installed, just pull the latest changes and jump to section 2.
    - `make mission-log` — tail recent entries in `logs/mission.log`
    - `make mission-status` — show a compact git graph
    - `make mission-summary` — curl the FastAPI dashboard summary (requires server)
+5. Need local remotes? Run `make start-local-registry` (or `LOCAL_NAME=foo make local-demo-repo`) and set `LOCAL_DEMO_REPO=/path/to/local_registry/<persona>.git` before `make mission-all`.
 
 ## 3. Run the Ready Check
 - Open `from_maverick_to_codex.md` in the Maverick pane.

@@ -63,6 +63,9 @@ make mission-control # launch the multi-pane Codex tmux session (alias of make t
 make mission-all   # run clone-template, pnpm install, optional venv, verify
 make mission-story-check # validate storyteller outline vs chapters
 make demotime     # prep FastAPI + dashboard demo and print run commands
+make mission-clean # stop tmux/uvicorn/next demo processes
+make start-local-registry # create local bare repos for personas
+make local-demo-repo     # create single bare repo (LOCAL_NAME=foo make ...)
 make inbox        # print current handoffs/inbox.md tasks
 make mission-log  # tail recent mission log entries
 make mission-status # show git graph for active branches
@@ -80,9 +83,9 @@ make clone-template # clone or update the talktomegoose_test repo for missions
 3. **Baseline Check**: `make test-unit` before coding to confirm the FastAPI template imports cleanly.
 4. **Develop**: personas work from the single repo root (`talktomegoose/`), following Maverick’s branch orders in `handoffs/inbox.md`.
 5. **Validate**: run `make verify` (or `pnpm test` with `ENABLE_TELEMETRY_TEST=1` when telemetry is wired) before handing changes back to Maverick.
-6. Optional: `make clone-template` pulls the shared test repo (`taituo/talktomegoose_test`) so Maverick can monitor remote branches.
+6. Optional: `make clone-template` pulls the shared test repo (`taituo/talktomegoose_test`) so Maverick can monitor remote branches (override `LOCAL_DEMO_REPO=/path/to/bare.git`).
 7. Want everything in one go? `make mission-all` runs cloning, dependency install, the optional venv (skip via `SKIP_VENV=1`), and the verification suite.
-8. `make demotime` prepares the FastAPI + dashboard demo and prints the commands to launch both services.
+8. `make demotime` prepares the FastAPI + dashboard demo and prints the commands to launch both services; `make mission-clean` tears them down.
 
 > FastAPI template note: it’s just an example payload for missions that want a
 > sample backend. If you don’t need it, skip `make venv` and ignore the template

@@ -7,3 +7,4 @@ logs/tests/*
 .env
 pnpm-lock.yaml
 talktomegoose_test/
+local_registry/

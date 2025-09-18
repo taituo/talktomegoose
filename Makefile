@@ -1,19 +1,30 @@
 SHELL := /usr/bin/env bash
 
-.PHONY: help clone-template bootstrap tmux tmux-observe mission-control mission-all mission-story-check demotime inbox mission-log mission-status mission-summary docs-install docs-dev docs-build lint test-unit verify fetch-deps venv venv-clean
+.PHONY: help clone-template bootstrap tmux tmux-observe mission-control mission-all mission-story-check demotime mission-clean inbox mission-log mission-status mission-summary start-local-registry local-demo-repo docs-install docs-dev docs-build lint test-unit verify fetch-deps venv venv-clean
 
 help: ## Show available ground operations
 	@grep -E '^[a-zA-Z_-]+:.*?##' Makefile | sort | awk 'BEGIN {FS = ":.*?##"} {printf "\033[36m%-16s\033[0m %s\n", $$1, $$2}'
 
-clone-template: ## Clone or update the shared test repo (taituo/talktomegoose_test)
-	@if [ -d talktomegoose_test ]; then \
+DEMO_REMOTE ?= git@github.com:taituo/talktomegoose_test.git
+
+clone-template: ## Clone or update the demo repo (override DEMO_REMOTE or LOCAL_DEMO_REPO)
+	@if [ -n "$(LOCAL_DEMO_REPO)" ]; then \
+		SRC="$(LOCAL_DEMO_REPO)"; \
+	else \
+		SRC="$(DEMO_REMOTE)"; \
+	fi; \
+	if [ -d talktomegoose_test ]; then \
 		if git -C talktomegoose_test rev-parse --verify HEAD >/dev/null 2>&1; then \
 			git -C talktomegoose_test pull --rebase; \
 		else \
 			echo "talktomegoose_test is empty — skipping pull until a default branch exists."; \
 		fi; \
 	else \
-		git clone git@github.com:taituo/talktomegoose_test.git; \
+		if [ -n "$(LOCAL_DEMO_REPO)" ]; then \
+			git clone "$$SRC" talktomegoose_test; \
+		else \
+			git clone "$$SRC"; \
+		fi; \
 	fi
 
 bootstrap: ## Install tmux, Node.js, pnpm, and Astro globally
@@ -50,6 +61,38 @@ demotime: ## Prepare demo deps (FastAPI + dashboard) and print launch tips
 	 && echo "3. Start dashboard: cd templates/mission-dashboard && NEXT_PUBLIC_API_BASE_URL=http://127.0.0.1:8000 NEXT_PUBLIC_API_KEY=demo-mission pnpm dev" \
 	 && echo "4. Open http://localhost:3000 to view panels." \
 	 && echo "Use SKIP_VENV=1 make demotime to skip Python venv creation."
+
+mission-clean: ## Stop tmux session and demo processes
+	@if tmux has-session -t goose 2>/dev/null; then \
+		tmux kill-session -t goose; \
+		echo "Killed tmux session 'goose'"; \
+	else \
+		echo "tmux session 'goose' not running"; \
+	fi
+	@pkill -f "uvicorn templates.fastapi.app.main:app" 2>/dev/null && echo "Stopped uvicorn" || true
+	@pkill -f "next dev" 2>/dev/null && echo "Stopped next dev" || true
+
+start-local-registry: ## Initialize local bare repos for personas under local_registry/
+	@mkdir -p local_registry
+	@for persona in Maverick Goose Phoenix Rooster Iceman Hangman; do \
+		repo="local_registry/$${persona}.git"; \
+		if [ ! -d "$$repo" ]; then \
+			git init --bare "$$repo" >/dev/null; \
+			echo "Created $$repo"; \
+		fi; \
+	done
+	@echo "Set LOCAL_DEMO_REPO=$(PWD)/local_registry/Maverick.git make mission-all to use a local remote."
+
+local-demo-repo: ## Create a single bare repo for ad-hoc testing (LOCAL_NAME defaults to demo)
+	@mkdir -p local_registry
+	@name=$${LOCAL_NAME:-demo}; \
+	repo="local_registry/$${name}.git"; \
+	if [ -d "$$repo" ]; then \
+		echo "Local repo $$repo already exists"; \
+	else \
+		git init --bare "$$repo" >/dev/null; \
+		echo "Created bare repo $$repo"; \
+	fi
 
 inbox: ## Show current mission inbox tasks (handoffs/inbox.md)
 	@if [ -f handoffs/inbox.md ]; then \
