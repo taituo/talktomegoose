@@ -31,9 +31,9 @@ launch_codex() {
     cmd="source $env_file && cd $workspace_dir && echo 'Persona ${persona} dry run — workspace: $workspace_dir — awaiting Codex attach.'"
   else
     if [[ "$CODEX_SUPPORTS_PERSONA" -eq 1 ]]; then
-      cmd="source $env_file && cd $workspace_dir && if command -v codex >/dev/null 2>&1; then codex --persona $persona --cwd $workspace_dir; else echo 'Codex CLI missing; install before flight.'; exec bash; fi"
+      cmd="source $env_file && cd $workspace_dir && if command -v codex >/dev/null 2>&1; then codex --full-auto --persona $persona --cwd $workspace_dir; else echo 'Codex CLI missing; install before flight.'; exec bash; fi"
     else
-      cmd="source $env_file && cd $workspace_dir && if command -v codex >/dev/null 2>&1; then echo 'Persona ${persona} pane ready in $workspace_dir. Launch Codex manually and paste the base prompt from from_to.md.'; codex --cd $workspace_dir; else echo 'Codex CLI missing; install before flight.'; exec bash; fi"
+      cmd="source $env_file && cd $workspace_dir && if command -v codex >/dev/null 2>&1; then echo 'Persona ${persona} pane ready in $workspace_dir. Launch Codex manually and paste the base prompt from from_to.md.'; codex --full-auto --cd $workspace_dir; else echo 'Codex CLI missing; install before flight.'; exec bash; fi"
     fi
   fi
 

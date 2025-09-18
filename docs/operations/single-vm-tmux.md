@@ -25,9 +25,9 @@ All personas share one VM but operate from individual Git workspaces located at 
 - Session name: `goose`
 - Windows:
   1. `command`: root shell, make targets, git graph (repo root)
-  2. `flightline`: four panes for Goose, Iceman, Phoenix, Hangman (each pane launches inside `personas/<Persona>`)
-  3. `qa`: Rooster pane running tests on loop (`personas/Rooster`)
-  4. `ops`: Hondo pane tailing logs (`personas/Hondo`)
+  2. `flightline`: neljä paneelia Gooselle, Icemanille, Phoenixille ja Hangmanille (käynnistyy automaattisesti `personas/<Persona>`-hakemistoon `codex --full-auto` -tilassa)
+  3. `qa`: Rooster-paneeli testejä varten (`personas/Rooster`)
+  4. `ops`: Hondo-paneeli logien seurantaan (`personas/Hondo`)
 - Key bindings: prefix `Ctrl-a`, `Ctrl-a r` reloads config, `Ctrl-a D` detaches others.
 
 ## Persona Workspaces
@@ -62,9 +62,9 @@ All personas share one VM but operate from individual Git workspaces located at 
 ## Failure Recovery
 - If a pane crashes, reattach with `tmux attach -t goose` and rerun the persona bootstrap:
 ```bash
-source scripts/persona_env/<persona>.env
-codex --cd ${PERSONA_WORKSPACES:-$(pwd)/personas}/<persona>
-# paste the persona base prompt from from_to.md once Codex opens
+  source scripts/persona_env/<persona>.env
+  scripts/run_codex_persona.sh <persona>
+  # liitä persona-prompti from_to.md:stä kun Codex avautuu
 ```
 - Keep backups of `logs/` and `docs/` in external storage nightly.
 

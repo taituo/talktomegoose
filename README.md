@@ -76,8 +76,10 @@ new personas; each workspace tracks the repo’s default branch (usually
 latest commits, then create `feature/<persona>-<slug>` branches without
 touching other panes.
 
-When Codex opens in each pane, run `codex --cd $(pwd)` (if the script did not
-launch it automatically) and paste the persona prompt from `from_to.md`.
+When Codex opens in each pane, it now launches with `--full-auto` so the trust
+prompt is skipped. If you ever need to start it manually, use
+`scripts/run_codex_persona.sh <Persona>` (wraps `codex --full-auto --cd` for the
+correct workspace) and liitä persona-prompti `from_to.md`:stä.
 
 Optional shell helper for one-off runs:
 

@@ -38,7 +38,7 @@ tooling installed, just pull the latest changes and jump to section 2.
 
 ## 4. Launch Mission Control
 1. Start the tmux layout: `make mission-control` (alias: `make tmux`).
-2. Attach Codex sessions in each pane (`codex --cd personas/<Persona>`). Paste the persona prompt from `from_to.md` after Codex opens.
+2. Paneissa Codex käynnistyy automaattisesti `--full-auto`-tilassa. Jos joudut käynnistämään sen itse, aja `scripts/run_codex_persona.sh <Persona>` ja liitä persona-prompti `from_to.md`:stä.
 3. Observers join read-only with `tmux attach -t goose -r`.
 4. Monitor progress with helper targets as you go:
    - `make inbox` — print tasks from `handoffs/inbox.md`
