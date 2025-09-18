@@ -45,6 +45,4 @@ Optional personas requested (e.g., Sundown):
 Target Branch for first wave:
 Additional Constraints or Approvals:
 ```
-```
-
 Maverick should echo constraints back to the operator, then invite Goose/Iceman to spin up their panes.
