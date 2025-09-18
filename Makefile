@@ -7,7 +7,11 @@ help: ## Show available ground operations
 
 clone-template: ## Clone or update the shared test repo (taituo/talktomegoose_test)
 	@if [ -d talktomegoose_test ]; then \
-		git -C talktomegoose_test pull --rebase; \
+		if git -C talktomegoose_test rev-parse --verify HEAD >/dev/null 2>&1; then \
+			git -C talktomegoose_test pull --rebase; \
+		else \
+			echo "talktomegoose_test is empty — skipping pull until a default branch exists."; \
+		fi; \
 	else \
 		git clone git@github.com:taituo/talktomegoose_test.git; \
 	fi

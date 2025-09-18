@@ -6,3 +6,4 @@ logs/tests/*
 !logs/tests/README.md
 .env
 pnpm-lock.yaml
+talktomegoose_test/
