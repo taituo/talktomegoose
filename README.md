@@ -63,6 +63,10 @@ make mission-control # launch the multi-pane Codex tmux session (alias of make t
 make mission-all   # run clone-template, pnpm install, optional venv, verify
 make mission-story-check # validate storyteller outline vs chapters
 make demotime     # prep FastAPI + dashboard demo and print run commands
+make inbox        # print current handoffs/inbox.md tasks
+make mission-log  # tail recent mission log entries
+make mission-status # show git graph for active branches
+make mission-summary # curl FastAPI dashboard summary (if running)
 make docs-dev      # live reload Astro site sourced from /docs
 make docs-build    # produce static site output in site/dist
 make verify        # run lint + tmux launch test + telemetry probe

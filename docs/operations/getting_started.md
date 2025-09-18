@@ -19,6 +19,11 @@ tooling installed, just pull the latest changes and jump to section 2.
 1. Start the tmux layout: `make mission-control` (alias: `make tmux`).
 2. Attach Codex sessions in each pane (`codex --persona <Name> --cwd ...`).
 3. Observers join read-only with `tmux attach -t goose -r`.
+4. Monitor progress with helper targets as you go:
+   - `make inbox` — print tasks from `handoffs/inbox.md`
+   - `make mission-log` — tail recent entries in `logs/mission.log`
+   - `make mission-status` — show a compact git graph
+   - `make mission-summary` — curl the FastAPI dashboard summary (requires server)
 
 ## 3. Run the Ready Check
 - Open `from_maverick_to_codex.md` in the Maverick pane.

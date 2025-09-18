@@ -1,6 +1,6 @@
 SHELL := /usr/bin/env bash
 
-.PHONY: help clone-template bootstrap tmux tmux-observe mission-control mission-all mission-story-check demotime docs-install docs-dev docs-build lint test-unit verify fetch-deps venv venv-clean
+.PHONY: help clone-template bootstrap tmux tmux-observe mission-control mission-all mission-story-check demotime inbox mission-log mission-status mission-summary docs-install docs-dev docs-build lint test-unit verify fetch-deps venv venv-clean
 
 help: ## Show available ground operations
 	@grep -E '^[a-zA-Z_-]+:.*?##' Makefile | sort | awk 'BEGIN {FS = ":.*?##"} {printf "\033[36m%-16s\033[0m %s\n", $$1, $$2}'
@@ -46,6 +46,33 @@ demotime: ## Prepare demo deps (FastAPI + dashboard) and print launch tips
 	 && echo "3. Start dashboard: cd templates/mission-dashboard && NEXT_PUBLIC_API_BASE_URL=http://127.0.0.1:8000 NEXT_PUBLIC_API_KEY=demo-mission pnpm dev" \
 	 && echo "4. Open http://localhost:3000 to view panels." \
 	 && echo "Use SKIP_VENV=1 make demotime to skip Python venv creation."
+
+inbox: ## Show current mission inbox tasks (handoffs/inbox.md)
+	@if [ -f handoffs/inbox.md ]; then \
+		cat handoffs/inbox.md; \
+	else \
+		echo "handoffs/inbox.md not found"; \
+	fi
+
+mission-log: ## Tail recent mission log entries
+	@if [ -f logs/mission.log ]; then \
+		tail -n 40 logs/mission.log; \
+	else \
+		echo "logs/mission.log not found"; \
+	fi
+
+mission-status: ## Compact git graph (last 12 commits)
+	git --no-pager log --oneline --decorate --graph -12
+
+mission-summary: ## Fetch dashboard summary from FastAPI (requires server)
+	@if command -v curl >/dev/null 2>&1; then \
+		API_BASE_URL=$${API_BASE_URL:-http://127.0.0.1:8000}; \
+		HEADER=""; \
+		if [ -n "$$TALKTO_API_KEY" ]; then HEADER="-H x-mission-key:$$TALKTO_API_KEY"; fi; \
+		curl -fsSL $$HEADER "$$API_BASE_URL/dashboard/summary" || echo "Dashboard summary unavailable (is FastAPI running?)"; \
+	else \
+		echo "curl not available"; \
+	fi
 
 tmux-observe: ## Attach to running tmux session in read-only mode
 	tmux attach -t goose -r || { echo "tmux session 'goose' not running. Start it with make tmux."; exit 1; }
